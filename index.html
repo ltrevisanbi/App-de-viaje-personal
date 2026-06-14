@@ -27,13 +27,14 @@
 html,body{margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   background:var(--bg);color:var(--text);font-size:16px;line-height:1.45;
-  padding-bottom:calc(72px + env(safe-area-inset-bottom));}
+  padding-bottom:calc(40px + env(safe-area-inset-bottom));}
 .app-header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--border);
-  padding:calc(12px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  padding:calc(12px + env(safe-area-inset-top)) 14px 12px;display:flex;align-items:center;gap:12px}
+.app-header .htitle{flex:1;min-width:0}
 .app-header h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.2px}
 .app-header .sub{font-size:12px;color:var(--muted);font-weight:500}
 .iconbtn{background:var(--surface2);border:1px solid var(--border);color:var(--text);width:40px;height:40px;
-  border-radius:12px;font-size:18px;cursor:pointer;display:grid;place-items:center}
+  border-radius:12px;font-size:18px;cursor:pointer;display:grid;place-items:center;flex:0 0 auto}
 main{padding:16px;max-width:680px;margin:0 auto}
 .screen{display:none;animation:fade .2s ease}
 .screen.active{display:block}
@@ -63,7 +64,7 @@ main{padding:16px;max-width:680px;margin:0 auto}
 .ev .body{flex:1;border-left:3px solid var(--cat);padding-left:12px;padding-bottom:4px}
 .ev .name{font-weight:700;font-size:15px}
 .ev .where{font-size:13px;color:var(--muted)}
-.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;color:#fff;display:inline-block}
+.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;color:#fff;display:inline-block;white-space:nowrap}
 .li{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
 .li:last-child{border-bottom:none}
 .li.done .ptxt{text-decoration:line-through;color:var(--muted)}
@@ -71,17 +72,11 @@ main{padding:16px;max-width:680px;margin:0 auto}
 .check.on{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
 .muted{color:var(--muted);font-size:13px}
 .kv{font-size:14px;margin:2px 0}
-.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:30;background:var(--surface);border-top:1px solid var(--border);
-  display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
-.tab{flex:1;background:none;border:none;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:10px}
-.tab .ic{font-size:20px}
-.tab.active{color:var(--primary)}
 .info-card{background:color-mix(in srgb,var(--actividad) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--actividad) 35%,var(--surface));border-radius:14px;padding:14px;margin-bottom:12px}
 .info-card h4{margin:0 0 6px;font-size:15px}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center}
 .modal.open{display:flex}
-.sheet{background:var(--surface);width:100%;max-width:680px;border-radius:20px 20px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom));
+.sheet{background:var(--surface);width:100%;max-width:680px;border-radius:20px 20px 0 0;padding:20px 18px calc(28px + env(safe-area-inset-bottom));
   animation:up .25s ease;max-height:88vh;overflow:auto}
 @keyframes up{from{transform:translateY(100%)}to{transform:none}}
 .sheet h3{margin:0 0 4px}
@@ -90,13 +85,9 @@ input,textarea,select{width:100%;font:inherit;color:var(--text);background:var(-
   border-radius:10px;padding:10px 12px;margin:4px 0}
 label{font-size:13px;font-weight:600;color:var(--muted)}
 .note{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.4}
-.weatherbox{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
-.wcard{flex:0 0 auto;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;text-align:center;min-width:90px}
-.wcard .d{font-size:12px;color:var(--muted);font-weight:700}
-.wcard .t{font-size:18px;font-weight:800}
 .flex-between{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .small{font-size:12px}
-.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .kpi{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:12px}
 .kpi .lab{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 .kpi .val{font-size:22px;font-weight:800;margin-top:2px}
@@ -108,34 +99,45 @@ label{font-size:13px;font-weight:600;color:var(--muted)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--border)}
 th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
-.fab{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:35;width:56px;height:56px;border-radius:50%;
+.fab{position:fixed;right:18px;bottom:calc(22px + env(safe-area-inset-bottom));z-index:35;width:56px;height:56px;border-radius:50%;
   background:var(--primary);color:var(--primary-ink);border:none;font-size:28px;box-shadow:var(--shadow);cursor:pointer;display:none;place-items:center}
 .fab.show{display:grid}
 .seg{display:flex;gap:8px;margin:6px 0}
 .seg button{flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-weight:700;cursor:pointer}
 .seg button.on{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
-.menu-item{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;cursor:pointer}
-.menu-item .mic{font-size:24px}
-.menu-item .mt{font-weight:700}
-.menu-item .ms{font-size:12px;color:var(--muted)}
 .diario-photo{width:100%;border-radius:12px;margin-top:8px;display:block}
 .donut-wrap{display:flex;align-items:center;gap:16px}
 .legend{font-size:13px}
 .legend span{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
 a.tel{color:var(--primary);font-weight:700;text-decoration:none}
+.settle{background:color-mix(in srgb,var(--primary) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--primary) 35%,var(--surface));
+  border-radius:14px;padding:14px;font-size:15px;font-weight:700;text-align:center;margin-bottom:12px}
+/* Drawer */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;left:0;bottom:0;width:80%;max-width:300px;z-index:45;background:var(--surface);
+  border-right:1px solid var(--border);transform:translateX(-100%);transition:transform .25s ease;
+  padding:calc(18px + env(safe-area-inset-top)) 0 calc(18px + env(safe-area-inset-bottom));overflow:auto;box-shadow:var(--shadow)}
+.drawer.open{transform:none}
+.drawer .dh{padding:0 18px 14px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.drawer .dh .t{font-size:17px;font-weight:800}
+.drawer .dh .s{font-size:12px;color:var(--muted)}
+.ditem{display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;font-weight:600;font-size:15px}
+.ditem .di{font-size:20px;width:24px;text-align:center}
+.ditem.active{background:color-mix(in srgb,var(--primary) 14%,var(--surface));color:var(--primary)}
+.ditem:active{background:var(--surface2)}
+.line-svg{width:100%;height:140px;display:block}
 </style>
 </head>
 <body data-theme="dark">
 
 <header class="app-header">
-  <div>
+  <button class="iconbtn" id="menuBtn" title="Menú">☰</button>
+  <div class="htitle">
     <h1 id="hdrTitle">Hoy</h1>
     <div class="sub">Salta &amp; Jujuy · Julio 2026</div>
   </div>
-  <div class="row">
-    <button class="iconbtn" id="settingsBtn" title="Ajustes">⚙️</button>
-    <button class="iconbtn" id="themeBtn" title="Tema">🌙</button>
-  </div>
+  <button class="iconbtn" id="themeBtn" title="Tema">🌙</button>
 </header>
 
 <main>
@@ -143,17 +145,20 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
   <section id="scr-itin" class="screen"></section>
   <section id="scr-gastos" class="screen"></section>
   <section id="scr-res" class="screen"></section>
-  <section id="scr-mas" class="screen"></section>
+  <section id="scr-lugares" class="screen"></section>
+  <section id="scr-datos" class="screen"></section>
+  <section id="scr-olvidar" class="screen"></section>
+  <section id="scr-diario" class="screen"></section>
+  <section id="scr-compartir" class="screen"></section>
+  <section id="scr-ajustes" class="screen"></section>
 </main>
 
 <button class="fab" id="fab">＋</button>
 
-<nav class="tabbar">
-  <button class="tab active" data-scr="hoy"><span class="ic">🏠</span>Hoy</button>
-  <button class="tab" data-scr="itin"><span class="ic">🗓️</span>Itinerario</button>
-  <button class="tab" data-scr="gastos"><span class="ic">💰</span>Gastos</button>
-  <button class="tab" data-scr="res"><span class="ic">🏨</span>Reservas</button>
-  <button class="tab" data-scr="mas"><span class="ic">⋯</span>Más</button>
+<div class="scrim" id="scrim"></div>
+<nav class="drawer" id="drawer">
+  <div class="dh"><div class="t">🏔️ Mi Viaje</div><div class="s">Salta &amp; Jujuy · Julio 2026</div></div>
+  <div id="drawerItems"></div>
 </nav>
 
 <div class="modal" id="modal"><div class="sheet"><div class="grabber"></div><div id="sheetBody"></div></div></div>
@@ -289,7 +294,8 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
       "transporte": "-",
       "estado": "✅ Reservado",
       "costo": "Reservado",
-      "obs": "Booking"
+      "obs": "Booking",
+      "map": "Hotel La Valentina, Purmamarca, Jujuy"
     },
     {
       "cat": "Actividad",
@@ -302,7 +308,8 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
       "transporte": "Caminando",
       "estado": "📌 Planificado",
       "costo": "-",
-      "obs": "Plaza y feria"
+      "obs": "Plaza y feria",
+      "map": "Plaza de Purmamarca, Jujuy"
     },
     {
       "cat": "Actividad",
@@ -315,7 +322,8 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
       "transporte": "Actividad contratada",
       "estado": "✅ Reservado",
       "costo": "Pendiente",
-      "obs": "Pick-up: La Valentina (Lavalle s/n). Regreso a Salta."
+      "obs": "Pick-up: La Valentina (Lavalle s/n). Regreso a Salta.",
+      "map": "Hotel La Valentina, Purmamarca, Jujuy"
     },
     {
       "cat": "Hospedaje",
@@ -424,7 +432,8 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
       "nombre": "La Valentina (Purmamarca)",
       "dir": "Lavalle s/n 4618, Purmamarca",
       "detalle": "Noche 2 · 10/07",
-      "estado": "✅ Reservado"
+      "estado": "✅ Reservado",
+      "map": "Hotel La Valentina, Purmamarca, Jujuy"
     },
     {
       "tipo": "hotel",
@@ -532,7 +541,6 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
       "Snacks",
       "Calzado cómodo",
       "Cámara / celular cargado",
-      "Power bank",
       "Efectivo para entradas y feria"
     ],
     "Salud y básicos": [
@@ -540,7 +548,9 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
       "Algo para el mal de altura (consultar médico)",
       "Cargadores",
       "Adaptador / cables",
-      "Botiquín mínimo (analgésico, curitas)"
+      "Botiquín mínimo (analgésico, curitas)",
+      "Cepillo de dientes",
+      "Consumibles (jabón, shampoo, dentífrico, etc.)"
     ]
   }
 }
@@ -554,6 +564,14 @@ const GCATS = ['Actividad','Alojamiento','Traslado','Consumo','Souveniers','Otro
 const GCATCOLOR = {Actividad:'var(--c1)',Alojamiento:'var(--c2)',Traslado:'var(--c3)',Consumo:'var(--c4)',Souveniers:'var(--c5)',Otros:'var(--c6)'};
 const DAYNAMES=['dom','lun','mar','mié','jue','vie','sáb'];
 const MONTHS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const CLV=2; // version de la lista "no olvidar"
+
+const MENU=[
+  ['hoy','🏠','Hoy'],['itin','🗓️','Itinerario'],['gastos','💰','Gastos'],['res','🏨','Reservas'],
+  ['lugares','🗺️','Lugares'],['datos','🩺','Datos útiles / Salud'],['olvidar','🎒','No olvidar'],
+  ['diario','📔','Diario de viaje'],['compartir','📤','Compartir'],['ajustes','⚙️','Ajustes']
+];
+const TITLES=Object.fromEntries(MENU.map(m=>[m[0],m[2]]));
 
 const store = {
   get(k,d){try{const v=localStorage.getItem('viaje_'+k);return v===null?d:JSON.parse(v)}catch{return d}},
@@ -562,11 +580,12 @@ const store = {
 let state = {
   gastos: store.get('gastos',[]),
   checklist: store.get('checklist',null),
+  clv: store.get('clv',0),
   diario: store.get('diario',{}),
   demo: store.get('demo',null),
   theme: store.get('theme','dark')
 };
-function save(){store.set('gastos',state.gastos);store.set('checklist',state.checklist);
+function save(){store.set('gastos',state.gastos);store.set('checklist',state.checklist);store.set('clv',state.clv);
   store.set('diario',state.diario);store.set('demo',state.demo);store.set('theme',state.theme);}
 
 function now(){return state.demo? new Date(state.demo+'T'+pad(new Date().getHours())+':'+pad(new Date().getMinutes())) : new Date();}
@@ -575,25 +594,64 @@ function evDate(e){return new Date(e.fecha+'T'+(e.hora||'00:00'))}
 function fmtFecha(s){const d=new Date(s+'T00:00');return DAYNAMES[d.getDay()]+' '+d.getDate()+' '+MONTHS[d.getMonth()]}
 function money(n){return '$'+Math.round(n).toLocaleString('es-AR')}
 function esc(s){return String(s).replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]))}
-
-const screens={hoy:'Hoy',itin:'Itinerario',gastos:'Gastos',res:'Reservas',mas:'Más'};
-document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.scr));
-function go(scr){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.scr===scr));
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('scr-'+scr).classList.add('active');
-  document.getElementById('hdrTitle').textContent=screens[scr];
-  document.getElementById('fab').classList.toggle('show',scr==='gastos');
-  render();window.scrollTo(0,0);
-}
 function mapsUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q)}
 function mapsNear(q){return 'https://www.google.com/maps/search/'+encodeURIComponent(q)}
 function copy(t){navigator.clipboard&&navigator.clipboard.writeText(t);toast('Copiado')}
 function toast(m){const d=document.createElement('div');d.textContent=m;
-  d.style.cssText='position:fixed;bottom:150px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;z-index:99;box-shadow:var(--shadow)';
+  d.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;z-index:99;box-shadow:var(--shadow)';
   document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
 
 const ALTURA_DIAS=['2026-07-10'];
+let current='hoy';
+
+// ====== NAVEGACIÓN + HISTORIAL ======
+function overlayVisible(){return document.getElementById('modal').classList.contains('open')||document.getElementById('drawer').classList.contains('open')}
+function hideOverlays(){document.getElementById('modal').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');document.getElementById('scrim').classList.remove('open')}
+let pendingNav=null;
+
+function go(scr,push){
+  current=scr;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('scr-'+scr).classList.add('active');
+  document.getElementById('hdrTitle').textContent=TITLES[scr];
+  document.getElementById('fab').classList.toggle('show',scr==='gastos');
+  buildDrawer();
+  if(push!==false) history.pushState({screen:scr},'','#'+scr);
+  render();window.scrollTo(0,0);
+}
+function buildDrawer(){
+  document.getElementById('drawerItems').innerHTML=MENU.map(m=>
+    `<div class="ditem ${current===m[0]?'active':''}" onclick="navTo('${m[0]}')"><span class="di">${m[1]}</span>${m[2]}</div>`).join('');
+}
+function openDrawer(){
+  buildDrawer();
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('scrim').classList.add('open');
+  history.pushState({overlay:'drawer'},'');
+}
+function navTo(scr){ // desde el menú lateral
+  if(overlayVisible()){ pendingNav=scr; history.back(); }
+  else go(scr);
+}
+function openSheet(html){
+  document.getElementById('sheetBody').innerHTML=html;
+  if(!overlayVisible()) history.pushState({overlay:'sheet'},'');
+  document.getElementById('modal').classList.add('open');
+}
+function closeSheet(){ history.back(); }
+
+window.addEventListener('popstate',e=>{
+  if(overlayVisible()){
+    hideOverlays();
+    if(pendingNav){const s=pendingNav;pendingNav=null;go(s);}
+    return;
+  }
+  go((e.state&&e.state.screen)||'hoy', false);
+});
+document.getElementById('menuBtn').onclick=openDrawer;
+document.getElementById('scrim').onclick=()=>history.back();
+document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')history.back()};
 
 // ====== HOY ======
 function renderHoy(){
@@ -621,10 +679,8 @@ function renderHoy(){
   const today=evs.filter(e=>e.fecha===refDay);
   html+=`<div class="section-title">Agenda · ${fmtFecha(refDay)}</div>`;
   html+=today.map(e=>evRow(e,evs.indexOf(e))).join('')||'<div class="muted">Sin actividades.</div>';
-  html+=`<div class="section-title">Clima</div><div class="card" id="weather"><div class="muted">Cargando pronóstico…</div></div>`;
   document.getElementById('scr-hoy').innerHTML=html;
   if(next) startCountdown(evDate(next));
-  loadWeather();
 }
 let cdTimer;
 function startCountdown(target){
@@ -691,9 +747,10 @@ function renderGastos(){
     <div class="kpi"><div class="lab">👩 Lucía</div><div class="val" style="color:var(--lucia)">${money(byP.Lucia||0)}</div></div>
   </div>`;
   if(!g.length){
-    html+=`<div class="card" style="text-align:center;padding:32px 16px"><div style="font-size:40px">💸</div><div class="muted" style="margin-top:8px">Todavía no cargaste gastos.<br>Tocá el botón <b>＋</b> para agregar el primero.</div></div>`;
+    html+=`<div class="card" style="text-align:center;padding:32px 16px;margin-top:4px"><div style="font-size:40px">💸</div><div class="muted" style="margin-top:8px">Todavía no cargaste gastos.<br>Tocá el botón <b>＋</b> para agregar el primero.</div></div>`;
     document.getElementById('scr-gastos').innerHTML=html;return;
   }
+  // barras por categoria
   const byC={};GCATS.forEach(c=>byC[c]=0);g.forEach(x=>byC[x.categoria]=(byC[x.categoria]||0)+x.monto);
   const maxC=Math.max(...Object.values(byC),1);
   html+=`<div class="section-title">Por categoría</div><div class="card">`;
@@ -701,23 +758,38 @@ function renderGastos(){
     html+=`<div class="bar-row"><div class="lab">${c}</div><div class="bar-track"><div class="bar-fill" style="width:${byC[c]/maxC*100}%;background:${GCATCOLOR[c]}"></div></div><div class="amt">${money(byC[c])}</div></div>`;
   });
   html+='</div>';
+  // linea por dia (total)
+  html+=`<div class="section-title">Gasto por día</div><div class="card">${lineChart(g)}</div>`;
+  // donut por persona
   html+=`<div class="section-title">Por persona</div><div class="card"><div class="donut-wrap">${donut(byP.Lucas||0,byP.Lucia||0)}
     <div class="legend">
       <div style="margin-bottom:6px"><span style="background:var(--lucas)"></span>👨 Lucas · <b>${money(byP.Lucas||0)}</b> (${pct(byP.Lucas,total)}%)</div>
       <div><span style="background:var(--lucia)"></span>👩 Lucía · <b>${money(byP.Lucia||0)}</b> (${pct(byP.Lucia,total)}%)</div>
     </div></div></div>`;
+  // tabla
   html+=`<div class="section-title">Detalle</div><div class="card" style="overflow-x:auto">
     <table><thead><tr><th>Concepto</th><th>Cat.</th><th>Quién</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody>`;
   g.slice().reverse().forEach((x)=>{
     const realIdx=state.gastos.indexOf(x);
     html+=`<tr><td>${esc(x.concepto)}</td><td><span class="small" style="color:${GCATCOLOR[x.categoria]};font-weight:700">${x.categoria}</span></td>
       <td>${x.persona==='Lucas'?'👨':'👩'}</td><td style="text-align:right;font-weight:700;white-space:nowrap">${money(x.monto)}</td>
-      <td><span style="color:var(--alta);cursor:pointer" onclick="delGasto(${realIdx})">✕</span></td></tr>`;
+      <td><span style="color:var(--alta);cursor:pointer;padding:4px" onclick="delGasto(${realIdx})">✕</span></td></tr>`;
   });
   html+=`</tbody></table></div>`;
+  // liquidacion
+  html+=settleText(byP.Lucas||0,byP.Lucia||0);
+  // espacio para que el ultimo boton no quede bajo el FAB
+  html+=`<div style="height:90px"></div>`;
   document.getElementById('scr-gastos').innerHTML=html;
 }
 function pct(v,t){return t?Math.round((v||0)/t*100):0}
+function settleText(a,b){
+  const total=a+b; if(total<=0) return '';
+  const half=total/2; const diff=a-half;
+  if(Math.abs(diff)<1) return `<div class="settle">✅ Están a mano</div>`;
+  if(diff>0) return `<div class="settle">👩 Lucía le pasa <b>${money(diff)}</b> a 👨 Lucas</div>`;
+  return `<div class="settle">👨 Lucas le pasa <b>${money(-diff)}</b> a 👩 Lucía</div>`;
+}
 function donut(a,b){
   const tot=a+b;const C=2*Math.PI*54;
   const da=tot?a/tot*C:0, db=tot?b/tot*C:0;
@@ -728,6 +800,30 @@ function donut(a,b){
     <circle cx="60" cy="60" r="54" fill="none" stroke="var(--lucia)" stroke-width="12" stroke-dasharray="${db} ${C-db}" stroke-dashoffset="${-da}"/>
   </svg>`;
 }
+function lineChart(g){
+  const tripDays=[...new Set([...DATA.eventos].map(e=>e.fecha))].sort();
+  const by={};tripDays.forEach(d=>by[d]=0);
+  g.forEach(x=>{if(x.fecha in by)by[x.fecha]+=x.monto; else by[x.fecha]=(by[x.fecha]||0)+x.monto});
+  const days=Object.keys(by).sort();
+  const vals=days.map(d=>by[d]);
+  const max=Math.max(...vals,1);
+  const W=300,H=120,pl=8,pr=8,pt=12,pb=22;
+  const iw=W-pl-pr, ih=H-pt-pb;
+  const n=days.length;
+  const x=i=> n<=1? pl+iw/2 : pl+ i*(iw/(n-1));
+  const y=v=> pt+ ih - (v/max*ih);
+  const pts=vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  let dots='',labels='';
+  vals.forEach((v,i)=>{
+    dots+=`<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="3.5" fill="var(--primary)"/>`;
+    if(v>0) labels+=`<text x="${x(i).toFixed(1)}" y="${(y(v)-7).toFixed(1)}" font-size="9" fill="var(--text)" text-anchor="middle" font-weight="700">${Math.round(v/1000)>0?('$'+Math.round(v/1000)+'k'):money(v)}</text>`;
+    labels+=`<text x="${x(i).toFixed(1)}" y="${H-7}" font-size="9" fill="var(--muted)" text-anchor="middle">${days[i].slice(8,10)}/${days[i].slice(5,7)}</text>`;
+  });
+  const area=`${pl},${pt+ih} ${pts} ${(pl+iw).toFixed(1)},${pt+ih}`;
+  return `<svg class="line-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <polyline points="${pts}" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round"/>
+    ${dots}${labels}</svg>`;
+}
 let formP='Lucas';
 function openGastoForm(){
   formP='Lucas';
@@ -737,8 +833,8 @@ function openGastoForm(){
     <label>Concepto</label><input id="gConc" placeholder="Ej: Almuerzo en peña">
     <label>Persona</label>
     <div class="seg">
-      <button id="pLucas" class="on" onclick="formP='Lucas';document.getElementById('pLucas').classList.add('on');document.getElementById('pLucia').classList.remove('on')">👨 Lucas</button>
-      <button id="pLucia" onclick="formP='Lucia';document.getElementById('pLucia').classList.add('on');document.getElementById('pLucas').classList.remove('on')">👩 Lucía</button>
+      <button id="pLucas" class="on" onclick="formP='Lucas';pLucas.classList.add('on');pLucia.classList.remove('on')">👨 Lucas</button>
+      <button id="pLucia" onclick="formP='Lucia';pLucia.classList.add('on');pLucas.classList.remove('on')">👩 Lucía</button>
     </div>
     <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="addGasto()">Guardar gasto</button>`;
   openSheet(h);
@@ -750,7 +846,7 @@ function addGasto(){
   if(!m||m<=0)return toast('Ingresá un monto válido');
   if(!co)return toast('Ingresá un concepto');
   state.gastos.push({monto:m,categoria:c,concepto:co,persona:formP,fecha:now().toISOString().slice(0,10)});
-  save();closeSheet();renderGastos();toast('Gasto agregado');
+  save();renderGastos();history.back();toast('Gasto agregado');
 }
 function delGasto(i){state.gastos.splice(i,1);save();renderGastos()}
 
@@ -758,45 +854,34 @@ function delGasto(i){state.gastos.splice(i,1);save();renderGastos()}
 function renderRes(){
   let html='<div class="section-title">Vuelos</div>';
   DATA.reservas.filter(r=>r.tipo==='vuelo').forEach(r=>{
-    html+=`<div class="card"><div class="flex-between"><b>✈️ ${esc(r.nombre)}</b><span class="small">${esc(r.estado)}</span></div><div class="muted small" style="margin-top:4px">${esc(r.detalle)}</div></div>`;
+    html+=`<div class="card"><div class="flex-between"><b>✈️ ${esc(r.nombre)}</b><span class="small" style="white-space:nowrap;flex:0 0 auto">${esc(r.estado)}</span></div><div class="muted small" style="margin-top:4px">${esc(r.detalle)}</div></div>`;
   });
   html+='<div class="section-title">Hoteles</div>';
   DATA.reservas.filter(r=>r.tipo==='hotel').forEach(r=>{
-    html+=`<div class="card"><div class="flex-between"><b>🏨 ${esc(r.nombre)}</b><span class="small">${esc(r.estado)}</span></div>
+    const mq=r.map||(r.dir+', Argentina');
+    html+=`<div class="card"><div class="flex-between"><b style="min-width:0">🏨 ${esc(r.nombre)}</b><span class="small" style="white-space:nowrap;flex:0 0 auto">${esc(r.estado)}</span></div>
       <div class="muted small" style="margin:4px 0">${esc(r.detalle)}<br>${esc(r.dir||'')}</div>
-      <div class="row">${r.dir?`<button class="btn btn-ghost small" onclick="copy('${esc(r.dir)}')">📋 Copiar</button><button class="btn btn-ghost small" onclick="window.open('${mapsUrl(r.dir+', Argentina')}','_blank')">🧭 Maps</button>`:''}</div></div>`;
+      <div class="row">${r.dir?`<button class="btn btn-ghost small" onclick="copy('${esc(r.dir)}')">📋 Copiar</button><button class="btn btn-ghost small" onclick="window.open('${mapsUrl(mq)}','_blank')">🧭 Maps</button>`:''}</div></div>`;
   });
   html+=`<div class="note">📎 Guardá acá una foto o PDF de cada reserva (Booking / Despegar) para tenerlos offline.</div>`;
   document.getElementById('scr-res').innerHTML=html;
 }
 
-// ====== MÁS (hub) ======
-function renderMas(){
-  const items=[
-    ['🗺️','Lugares','Centro histórico de Salta','openLugares()'],
-    ['🩺','Datos útiles / Salud','Emergencias, hospital, farmacia, altura','openDatos()'],
-    ['🎒','No olvidar','Checklist según clima y excursiones','openOlvidar()'],
-    ['📔','Diario de viaje','Una foto y una nota por día','openDiario()'],
-    ['📤','Compartir itinerario','WhatsApp o PDF','openCompartir()'],
-  ];
-  document.getElementById('scr-mas').innerHTML=items.map(i=>
-    `<div class="menu-item" onclick="${i[3]}"><div class="mic">${i[0]}</div><div><div class="mt">${i[1]}</div><div class="ms">${i[2]}</div></div></div>`).join('');
-}
-
-function openLugares(){
-  let h=`<h3>🗺️ Lugares · Centro de Salta</h3><div class="note" style="margin:6px 0 12px">Tocá un lugar para abrirlo en Maps.</div>`;
+// ====== LUGARES ======
+function renderLugares(){
+  let h=`<div class="note" style="margin:0 0 12px">Puntos del centro histórico de Salta. Tocá un lugar para abrirlo en Maps.</div>`;
   DATA.lugares.forEach(l=>{
     h+=`<div class="card"><div class="flex-between"><b>${esc(l.nombre)}</b><span class="tag" style="background:${l.gratis?'var(--baja)':'var(--actividad)'}">${l.gratis?'Gratis':'Pago'}</span></div>
       <div class="muted small" style="margin:6px 0">${esc(l.act)} · ⏱️ ${esc(l.tiempo)} · 📏 ${esc(l.dist)}</div>
       ${l.obs?`<div class="small muted">${esc(l.obs)}</div>`:''}
       <button class="btn btn-ghost small" style="margin-top:8px" onclick="window.open('${mapsUrl(l.dir+' Salta, Argentina')}','_blank')">🧭 ${esc(l.dir)}</button></div>`;
   });
-  openSheet(h);
+  document.getElementById('scr-lugares').innerHTML=h;
 }
 
-function openDatos(){
-  let h=`<h3>🩺 Datos útiles y salud</h3>`;
-  h+=`<div class="section-title">Emergencias (Argentina)</div><div class="card">`;
+// ====== DATOS UTILES / SALUD ======
+function renderDatos(){
+  let h=`<div class="section-title">Emergencias (Argentina)</div><div class="card">`;
   DATA.emergencias.forEach(e=>{h+=`<div class="li"><div style="font-size:20px">${e.ic}</div><div class="ptxt"><b>${esc(e.n)}</b><br><a class="tel" href="tel:${e.tel}">${e.tel}</a></div></div>`});
   h+=`</div><div class="note">Números nacionales de emergencia. 911 es la línea unificada.</div>`;
   h+=`<div class="section-title">Cerca tuyo</div><div class="card">
@@ -805,7 +890,7 @@ function openDatos(){
     <button class="btn btn-ghost" style="width:100%" onclick="window.open('${mapsNear('cajero automático cerca')}','_blank')">🏧 Cajero / banco</button>
     <div class="note">Abren Google Maps con la búsqueda en tu ubicación actual (requiere internet/GPS). El principal hospital público de Salta es el San Bernardo — verificá horarios y guardia en el momento.</div></div>`;
   h+=`<div class="section-title">Altura</div><div class="card"><button class="btn btn-ghost" style="width:100%" onclick="openAltura()">⛰️ Tips de altura / apunamiento</button></div>`;
-  openSheet(h);
+  document.getElementById('scr-datos').innerHTML=h;
 }
 function openAltura(){
   const h=`<h3>⛰️ Altura y apunamiento (soroche)</h3>
@@ -821,30 +906,31 @@ function openAltura(){
   openSheet(h);
 }
 
-function renderOlvidarBox(){
-  if(!state.checklist){
+// ====== NO OLVIDAR ======
+function ensureChecklist(){
+  if(!state.checklist || state.clv!==CLV){
     state.checklist={};
     Object.entries(DATA.no_olvidar).forEach(([g,items])=>{state.checklist[g]=items.map(t=>({t,done:false}))});
-    save();
+    state.clv=CLV;save();
   }
-  let h='';
+}
+function renderOlvidar(){
+  ensureChecklist();
+  let h=`<div class="note" style="margin:0 0 10px">Lista pensada para julio en la puna y tus excursiones. Marcá lo que ya tengas listo.</div>`;
   Object.entries(state.checklist).forEach(([g,items])=>{
     const done=items.filter(i=>i.done).length;
     h+=`<div class="section-title">${esc(g)} · ${done}/${items.length}</div><div class="card">`;
     items.forEach((c,i)=>{h+=`<div class="li ${c.done?'done':''}"><div class="check ${c.done?'on':''}" onclick="toggleOlv('${esc(g)}',${i})">${c.done?'✓':''}</div><div class="ptxt">${esc(c.t)}</div></div>`});
     h+='</div>';
   });
-  return h;
+  document.getElementById('scr-olvidar').innerHTML=h;
 }
-function openOlvidar(){
-  openSheet(`<h3>🎒 No olvidar</h3><div class="note" style="margin:6px 0 10px">Lista pensada para julio en la puna y tus excursiones. Marcá lo que ya tengas listo.</div><div id="olvBox">${renderOlvidarBox()}</div>`);
-}
-function toggleOlv(g,i){state.checklist[g][i].done=!state.checklist[g][i].done;save();
-  const b=document.getElementById('olvBox');if(b)b.innerHTML=renderOlvidarBox();}
+function toggleOlv(g,i){state.checklist[g][i].done=!state.checklist[g][i].done;save();renderOlvidar();}
 
-function openDiario(){
+// ====== DIARIO ======
+function renderDiario(){
   const days=[...new Set([...DATA.eventos].map(e=>e.fecha))].sort();
-  let h=`<h3>📔 Diario de viaje</h3><div class="note" style="margin:6px 0 12px">Sumá una foto y una nota por día. Se guarda en este dispositivo.</div>`;
+  let h=`<div class="note" style="margin:0 0 12px">Sumá una foto y una nota por día. Se guarda en este dispositivo.</div>`;
   days.forEach(d=>{
     const e=state.diario[d]||{};
     h+=`<div class="card"><b>${fmtFecha(d)}</b>
@@ -852,7 +938,7 @@ function openDiario(){
       ${e.nota?`<div class="small" style="margin-top:8px;white-space:pre-wrap">${esc(e.nota)}</div>`:'<div class="muted small" style="margin-top:6px">Sin entrada</div>'}
       <button class="btn btn-ghost small" style="margin-top:8px" onclick="editDiario('${d}')">${e.nota||e.foto?'Editar':'Agregar'}</button></div>`;
   });
-  openSheet(h);
+  document.getElementById('scr-diario').innerHTML=h;
 }
 function editDiario(d){
   const e=state.diario[d]||{};
@@ -881,11 +967,40 @@ function editDiario(d){
 function saveDiario(d){
   const nota=document.getElementById('dNota').value.trim();
   const foto=window._pendingPhoto?window._pendingPhoto():null;
-  state.diario[d]={nota,foto};save();openDiario();toast('Diario guardado');
+  if(!nota&&!foto){delete state.diario[d];} else {state.diario[d]={nota,foto};}
+  save();renderDiario();history.back();toast('Diario guardado');
 }
-function quitarFoto(d){if(state.diario[d]){state.diario[d].foto=null;save()}editDiario(d);toast('Foto quitada')}
-function delDiario(d){delete state.diario[d];save();openDiario();toast('Entrada eliminada')}
+function quitarFoto(d){if(state.diario[d]){state.diario[d].foto=null;save()}
+  // re-render el sheet en el lugar (sin tocar historial)
+  const e=state.diario[d]||{};editDiarioInline(d);toast('Foto quitada')}
+function editDiarioInline(d){ // re-pinta el contenido del sheet sin pushState
+  const cur=document.getElementById('modal').classList.contains('open');
+  const e=state.diario[d]||{};
+  let h=`<h3>${fmtFecha(d)}</h3>
+    <label>Nota</label><textarea id="dNota" rows="4" placeholder="¿Qué hiciste hoy?">${esc(e.nota||'')}</textarea>
+    ${e.foto?`<img class="diario-photo" src="${e.foto}" id="dPrev">`:'<img class="diario-photo" id="dPrev" style="display:none">'}
+    <label>Foto</label><input id="dFoto" type="file" accept="image/*">
+    ${e.foto?`<button class="btn btn-ghost small" style="width:100%;margin-top:8px" onclick="quitarFoto('${d}')">🗑️ Quitar foto</button>`:''}
+    <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="saveDiario('${d}')">Guardar</button>
+    ${(e.nota||e.foto)?`<button class="btn btn-ghost small" style="width:100%;margin-top:8px;color:var(--alta)" onclick="delDiario('${d}')">Eliminar entrada del día</button>`:''}`;
+  document.getElementById('sheetBody').innerHTML=h;
+  let pending=e.foto||null;
+  document.getElementById('dFoto').onchange=ev=>{
+    const f=ev.target.files[0];if(!f)return;
+    const img=new Image();const rd=new FileReader();
+    rd.onload=()=>{img.onload=()=>{
+      const max=1024;let w=img.width,ht=img.height;
+      if(w>ht&&w>max){ht=ht*max/w;w=max}else if(ht>max){w=w*max/ht;ht=max}
+      const cv=document.createElement('canvas');cv.width=w;cv.height=ht;cv.getContext('2d').drawImage(img,0,0,w,ht);
+      pending=cv.toDataURL('image/jpeg',0.7);
+      const p=document.getElementById('dPrev');p.src=pending;p.style.display='block';
+    };img.src=rd.result};rd.readAsDataURL(f);
+  };
+  window._pendingPhoto=()=>pending;
+}
+function delDiario(d){delete state.diario[d];save();renderDiario();history.back();toast('Entrada eliminada')}
 
+// ====== COMPARTIR ======
 function itinText(){
   let t=`🏔️ Mi Viaje · Salta & Jujuy (Julio 2026)\n\n`;
   const evs=[...DATA.eventos].sort((a,b)=>evDate(a)-evDate(b));
@@ -897,12 +1012,13 @@ function itinText(){
   });
   return t;
 }
-function openCompartir(){
-  openSheet(`<h3>📤 Compartir itinerario</h3>
-    <button class="btn btn-primary" style="width:100%;margin:10px 0" onclick="window.open('https://wa.me/?text='+encodeURIComponent(itinText()),'_blank')">💬 Enviar por WhatsApp</button>
+function renderCompartir(){
+  document.getElementById('scr-compartir').innerHTML=`
+    <div class="card">
+    <button class="btn btn-primary" style="width:100%;margin-bottom:10px" onclick="window.open('https://wa.me/?text='+encodeURIComponent(itinText()),'_blank')">💬 Enviar por WhatsApp</button>
     <button class="btn btn-ghost" style="width:100%;margin-bottom:10px" onclick="shareNative()">📲 Compartir (otras apps)</button>
     <button class="btn btn-ghost" style="width:100%" onclick="printPDF()">🖨️ Exportar / Guardar PDF</button>
-    <div class="note">El PDF se genera con el diálogo de impresión: elegí "Guardar como PDF".</div>`);
+    <div class="note">El PDF se genera con el diálogo de impresión: elegí "Guardar como PDF".</div></div>`;
 }
 function shareNative(){
   if(navigator.share)navigator.share({title:'Mi Viaje Salta & Jujuy',text:itinText()}).catch(()=>{});
@@ -917,47 +1033,26 @@ function printPDF(){
     body+='</ul>';
   });
   const w=window.open('','_blank');
-  const tagOpen='<scr'+'ipt>', tagClose='</scr'+'ipt>';
-  w.document.write('<html><head><title>Itinerario Salta & Jujuy</title><style>body{font-family:Arial;padding:24px;color:#111}h1{color:#0f766e}h2{margin-top:18px;border-bottom:2px solid #0f766e;padding-bottom:4px}li{margin:4px 0}</style></head><body><h1>Mi Viaje · Salta & Jujuy — Julio 2026</h1>'+body+tagOpen+'window.onload=function(){window.print()}'+tagClose+'</body></html>');
+  const to='<scr'+'ipt>', tc='</scr'+'ipt>';
+  w.document.write('<html><head><title>Itinerario Salta & Jujuy</title><style>body{font-family:Arial;padding:24px;color:#111}h1{color:#0f766e}h2{margin-top:18px;border-bottom:2px solid #0f766e;padding-bottom:4px}li{margin:4px 0}</style></head><body><h1>Mi Viaje · Salta & Jujuy — Julio 2026</h1>'+body+to+'window.onload=function(){window.print()}'+tc+'</body></html>');
   w.document.close();
 }
 
-// ====== CLIMA ======
-async function loadWeather(){
-  const box=document.getElementById('weather');if(!box)return;
-  const spots=[{n:'Salta',lat:-24.79,lon:-65.41},{n:'Purmamarca',lat:-23.74,lon:-65.50}];
-  try{
-    let out='';
-    for(const s of spots){
-      const u=`https://api.open-meteo.com/v1/forecast?latitude=${s.lat}&longitude=${s.lon}&daily=temperature_2m_max,temperature_2m_min&timezone=auto&start_date=2026-07-09&end_date=2026-07-12`;
-      const r=await fetch(u);const j=await r.json();
-      out+=`<div style="font-weight:700;font-size:13px;margin:6px 0 4px">${s.n}</div><div class="weatherbox">`;
-      j.daily.time.forEach((d,i)=>{out+=`<div class="wcard"><div class="d">${fmtFecha(d)}</div><div class="t">${Math.round(j.daily.temperature_2m_max[i])}°</div><div class="muted small">${Math.round(j.daily.temperature_2m_min[i])}° mín</div></div>`});
-      out+='</div>';
-    }
-    out+='<div class="note">🧥 Julio en la puna es frío, sobre todo de mañana y noche.</div>';
-    box.innerHTML=out;
-  }catch(e){
-    box.innerHTML='<div class="muted">Sin conexión: el pronóstico se carga cuando tengas internet. 🧥 Igual, llevá abrigo: julio en la puna es frío.</div>';
-  }
-}
-
 // ====== AJUSTES ======
-function openSettings(){
-  let h=`<h3>⚙️ Ajustes</h3>`;
-  h+=`<div class="section-title">🔔 Recordatorios</div><div class="card">
+function renderAjustes(){
+  let h=`<div class="section-title">🔔 Recordatorios</div><div class="card">
     <button class="btn btn-primary small" onclick="enableNotif()">Activar recordatorios</button>
     <div class="note">Te avisa ~1h30 antes de cada pick-up de excursión y del traslado al aeropuerto, mientras la app esté abierta/instalada. Para alarmas con la app cerrada, ponelas también en el reloj.</div></div>`;
   h+=`<div class="section-title">🧪 Previsualizar viaje</div><div class="card">
     <label>Simular que hoy es:</label>
     <select id="demoSel" onchange="setDemo(this.value)">
-      <option value="">Fecha real</option>
+      <option value="" ${!state.demo?'selected':''}>Fecha real</option>
       <option value="2026-07-09" ${state.demo==='2026-07-09'?'selected':''}>Día 1 · 9 jul</option>
       <option value="2026-07-10" ${state.demo==='2026-07-10'?'selected':''}>Día 2 · 10 jul (Salinas)</option>
       <option value="2026-07-11" ${state.demo==='2026-07-11'?'selected':''}>Día 3 · 11 jul</option>
       <option value="2026-07-12" ${state.demo==='2026-07-12'?'selected':''}>Día 4 · 12 jul</option>
     </select></div>`;
-  openSheet(h);
+  document.getElementById('scr-ajustes').innerHTML=h;
 }
 function setDemo(v){state.demo=v||null;save();}
 function enableNotif(){
@@ -976,27 +1071,32 @@ function scheduleReminders(){
     });
 }
 
-function openSheet(html){document.getElementById('sheetBody').innerHTML=html;document.getElementById('modal').classList.add('open')}
-function closeSheet(){document.getElementById('modal').classList.remove('open')}
-document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeSheet()};
-document.getElementById('settingsBtn').onclick=openSettings;
-document.getElementById('fab').onclick=openGastoForm;
-
+// ====== TEMA ======
 function applyTheme(){document.body.dataset.theme=state.theme;document.getElementById('themeBtn').textContent=state.theme==='dark'?'☀️':'🌙';
   document.querySelector('meta[name=theme-color]').setAttribute('content',state.theme==='dark'?'#0b1220':'#0f766e')}
 document.getElementById('themeBtn').onclick=()=>{state.theme=state.theme==='dark'?'light':'dark';save();applyTheme()};
 
+// ====== DISPATCHER ======
 function render(){
-  const a=document.querySelector('.screen.active').id;
-  if(a==='scr-hoy')renderHoy();
-  else if(a==='scr-itin')renderItin();
-  else if(a==='scr-gastos')renderGastos();
-  else if(a==='scr-res')renderRes();
-  else if(a==='scr-mas')renderMas();
+  switch(current){
+    case 'hoy':renderHoy();break;
+    case 'itin':renderItin();break;
+    case 'gastos':renderGastos();break;
+    case 'res':renderRes();break;
+    case 'lugares':renderLugares();break;
+    case 'datos':renderDatos();break;
+    case 'olvidar':renderOlvidar();break;
+    case 'diario':renderDiario();break;
+    case 'compartir':renderCompartir();break;
+    case 'ajustes':renderAjustes();break;
+  }
 }
-applyTheme();render();
+document.getElementById('fab').onclick=openGastoForm;
+applyTheme();
+history.replaceState({screen:'hoy'},'','#hoy');
+go('hoy',false);
 if('serviceWorker'in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
