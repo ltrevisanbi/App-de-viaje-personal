@@ -860,7 +860,9 @@ function editDiario(d){
     <label>Nota</label><textarea id="dNota" rows="4" placeholder="¿Qué hiciste hoy?">${esc(e.nota||'')}</textarea>
     ${e.foto?`<img class="diario-photo" src="${e.foto}" id="dPrev">`:'<img class="diario-photo" id="dPrev" style="display:none">'}
     <label>Foto</label><input id="dFoto" type="file" accept="image/*">
-    <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="saveDiario('${d}')">Guardar</button>`;
+    ${e.foto?`<button class="btn btn-ghost small" style="width:100%;margin-top:8px" onclick="quitarFoto('${d}')">🗑️ Quitar foto</button>`:''}
+    <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="saveDiario('${d}')">Guardar</button>
+    ${(e.nota||e.foto)?`<button class="btn btn-ghost small" style="width:100%;margin-top:8px;color:var(--alta)" onclick="delDiario('${d}')">Eliminar entrada del día</button>`:''}`;
   openSheet(h);
   let pending=e.foto||null;
   document.getElementById('dFoto').onchange=ev=>{
@@ -881,6 +883,8 @@ function saveDiario(d){
   const foto=window._pendingPhoto?window._pendingPhoto():null;
   state.diario[d]={nota,foto};save();openDiario();toast('Diario guardado');
 }
+function quitarFoto(d){if(state.diario[d]){state.diario[d].foto=null;save()}editDiario(d);toast('Foto quitada')}
+function delDiario(d){delete state.diario[d];save();openDiario();toast('Entrada eliminada')}
 
 function itinText(){
   let t=`🏔️ Mi Viaje · Salta & Jujuy (Julio 2026)\n\n`;
