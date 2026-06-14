@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<title>Mi Viaje · Salta & Jujuy</title>
+<style>
+:root{
+  --bg:#f1f5f9; --surface:#ffffff; --surface2:#f8fafc; --text:#0f172a; --muted:#64748b;
+  --border:#e2e8f0; --primary:#0f766e; --primary-ink:#ffffff;
+  --vuelo:#2563eb; --traslado:#7c3aed; --hospedaje:#16a34a; --actividad:#ea580c;
+  --alta:#dc2626; --media:#d97706; --baja:#16a34a;
+  --c1:#0ea5e9; --c2:#8b5cf6; --c3:#f59e0b; --c4:#10b981; --c5:#ec4899; --c6:#64748b;
+  --lucas:#3b82f6; --lucia:#ec4899;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05);
+}
+[data-theme="dark"]{
+  --bg:#0b1220; --surface:#111c2e; --surface2:#0f1a2a; --text:#e8eef6; --muted:#93a4bd;
+  --border:#1f2e44; --primary:#2dd4bf; --primary-ink:#03201c;
+  --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--text);font-size:16px;line-height:1.45;
+  padding-bottom:calc(72px + env(safe-area-inset-bottom));}
+.app-header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--border);
+  padding:calc(12px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.app-header h1{font-size:18px;margin:0;font-weight:700;letter-spacing:.2px}
+.app-header .sub{font-size:12px;color:var(--muted);font-weight:500}
+.iconbtn{background:var(--surface2);border:1px solid var(--border);color:var(--text);width:40px;height:40px;
+  border-radius:12px;font-size:18px;cursor:pointer;display:grid;place-items:center}
+main{padding:16px;max-width:680px;margin:0 auto}
+.screen{display:none;animation:fade .2s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.section-title{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700;margin:18px 4px 8px}
+.section-title:first-child{margin-top:0}
+.next-card{background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary) 70%,#000));color:var(--primary-ink);border:none}
+.next-card .label{font-size:12px;text-transform:uppercase;letter-spacing:1px;opacity:.85}
+.next-card .title{font-size:22px;font-weight:800;margin:4px 0}
+.next-card .meta{font-size:14px;opacity:.92}
+.countdown{font-variant-numeric:tabular-nums;font-size:15px;font-weight:700;margin-top:8px;display:inline-block;
+  background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:10px;padding:9px 14px;font-size:14px;font-weight:600;cursor:pointer}
+.btn-light{background:rgba(255,255,255,.2);color:#fff}
+.btn-primary{background:var(--primary);color:var(--primary-ink)}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.row{display:flex;align-items:center;gap:10px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;-ms-overflow-style:none;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;border:1px solid var(--border);background:var(--surface);color:var(--muted);
+  padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer}
+.chip.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.day-head{font-size:14px;font-weight:800;margin:16px 4px 8px;display:flex;align-items:center;gap:8px}
+.ev{display:flex;gap:12px;cursor:pointer}
+.ev .time{flex:0 0 52px;font-size:13px;font-weight:700;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.ev .body{flex:1;border-left:3px solid var(--cat);padding-left:12px;padding-bottom:4px}
+.ev .name{font-weight:700;font-size:15px}
+.ev .where{font-size:13px;color:var(--muted)}
+.tag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;color:#fff;display:inline-block}
+.li{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
+.li:last-child{border-bottom:none}
+.li.done .ptxt{text-decoration:line-through;color:var(--muted)}
+.check{flex:0 0 24px;height:24px;border-radius:7px;border:2px solid var(--muted);display:grid;place-items:center;cursor:pointer;font-size:14px;margin-top:1px}
+.check.on{background:var(--primary);border-color:var(--primary);color:var(--primary-ink)}
+.muted{color:var(--muted);font-size:13px}
+.kv{font-size:14px;margin:2px 0}
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:30;background:var(--surface);border-top:1px solid var(--border);
+  display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+.tab{flex:1;background:none;border:none;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;border-radius:10px}
+.tab .ic{font-size:20px}
+.tab.active{color:var(--primary)}
+.info-card{background:color-mix(in srgb,var(--actividad) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--actividad) 35%,var(--surface));border-radius:14px;padding:14px;margin-bottom:12px}
+.info-card h4{margin:0 0 6px;font-size:15px}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center}
+.modal.open{display:flex}
+.sheet{background:var(--surface);width:100%;max-width:680px;border-radius:20px 20px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom));
+  animation:up .25s ease;max-height:88vh;overflow:auto}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet h3{margin:0 0 4px}
+.grabber{width:40px;height:4px;background:var(--border);border-radius:99px;margin:0 auto 14px}
+input,textarea,select{width:100%;font:inherit;color:var(--text);background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:10px 12px;margin:4px 0}
+label{font-size:13px;font-weight:600;color:var(--muted)}
+.note{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.4}
+.weatherbox{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+.wcard{flex:0 0 auto;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;text-align:center;min-width:90px}
+.wcard .d{font-size:12px;color:var(--muted);font-weight:700}
+.wcard .t{font-size:18px;font-weight:800}
+.flex-between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.small{font-size:12px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:12px}
+.kpi .lab{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.kpi .val{font-size:22px;font-weight:800;margin-top:2px}
+.bar-row{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:13px}
+.bar-row .lab{flex:0 0 96px;font-weight:600}
+.bar-track{flex:1;background:var(--surface2);border-radius:8px;height:18px;overflow:hidden;border:1px solid var(--border)}
+.bar-fill{height:100%;border-radius:8px}
+.bar-row .amt{flex:0 0 auto;font-variant-numeric:tabular-nums;font-weight:700;font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.fab{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:35;width:56px;height:56px;border-radius:50%;
+  background:var(--primary);color:var(--primary-ink);border:none;font-size:28px;box-shadow:var(--shadow);cursor:pointer;display:none;place-items:center}
+.fab.show{display:grid}
+.seg{display:flex;gap:8px;margin:6px 0}
+.seg button{flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-weight:700;cursor:pointer}
+.seg button.on{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
+.menu-item{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;cursor:pointer}
+.menu-item .mic{font-size:24px}
+.menu-item .mt{font-weight:700}
+.menu-item .ms{font-size:12px;color:var(--muted)}
+.diario-photo{width:100%;border-radius:12px;margin-top:8px;display:block}
+.donut-wrap{display:flex;align-items:center;gap:16px}
+.legend{font-size:13px}
+.legend span{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+a.tel{color:var(--primary);font-weight:700;text-decoration:none}
+</style>
+</head>
+<body data-theme="dark">
+
+<header class="app-header">
+  <div>
+    <h1 id="hdrTitle">Hoy</h1>
+    <div class="sub">Salta &amp; Jujuy · Julio 2026</div>
+  </div>
+  <div class="row">
+    <button class="iconbtn" id="settingsBtn" title="Ajustes">⚙️</button>
+    <button class="iconbtn" id="themeBtn" title="Tema">🌙</button>
+  </div>
+</header>
+
+<main>
+  <section id="scr-hoy" class="screen active"></section>
+  <section id="scr-itin" class="screen"></section>
+  <section id="scr-gastos" class="screen"></section>
+  <section id="scr-res" class="screen"></section>
+  <section id="scr-mas" class="screen"></section>
+</main>
+
+<button class="fab" id="fab">＋</button>
+
+<nav class="tabbar">
+  <button class="tab active" data-scr="hoy"><span class="ic">🏠</span>Hoy</button>
+  <button class="tab" data-scr="itin"><span class="ic">🗓️</span>Itinerario</button>
+  <button class="tab" data-scr="gastos"><span class="ic">💰</span>Gastos</button>
+  <button class="tab" data-scr="res"><span class="ic">🏨</span>Reservas</button>
+  <button class="tab" data-scr="mas"><span class="ic">⋯</span>Más</button>
+</nav>
+
+<div class="modal" id="modal"><div class="sheet"><div class="grabber"></div><div id="sheetBody"></div></div></div>
+
+<script id="data" type="application/json">
+{
+  "viaje": {
+    "titulo": "Salta & Jujuy",
+    "subtitulo": "Julio 2026",
+    "nota": "Viaje sin auto | Vuelos pagados | Hoteles reservados | Excursiones y traslados clave pendientes",
+    "fecha_inicio": "2026-07-09",
+    "fecha_fin": "2026-07-12"
+  },
+  "leyenda": {
+    "categorias": {
+      "Vuelo": "#2563eb",
+      "Traslado": "#7c3aed",
+      "Hospedaje": "#16a34a",
+      "Actividad": "#ea580c"
+    },
+    "estados": {
+      "definido": "✅",
+      "pendiente": "⚠️",
+      "planificado": "📌",
+      "opcional": "⚪"
+    }
+  },
+  "eventos": [
+    {
+      "cat": "Vuelo",
+      "act": "Vuelo ida",
+      "origen": "Buenos Aires (AEP)",
+      "destino": "Salta (SLA)",
+      "fecha": "2026-07-09",
+      "hora": "05:00",
+      "horario": "05:00 → 07:15",
+      "transporte": "Avión (Aerolíneas Argentinas)",
+      "estado": "✅ Pagado",
+      "costo": "Pagado",
+      "obs": "Comprado por Despegar",
+      "map": "Aeroparque Jorge Newbery AEP, Buenos Aires"
+    },
+    {
+      "cat": "Traslado",
+      "act": "Aeropuerto → Hotel Salta",
+      "origen": "Aeropuerto Salta",
+      "destino": "Hotel Salta",
+      "dir": "B. Zorrilla 145, Salta",
+      "fecha": "2026-07-09",
+      "hora": "07:30",
+      "horario": "07:30 aprox",
+      "transporte": "Taxi / Remis / Transfer",
+      "estado": "📌 Planificado",
+      "costo": "A pagar en destino",
+      "obs": "20-30 min",
+      "map": "B. Zorrilla 145, Salta"
+    },
+    {
+      "cat": "Hospedaje",
+      "act": "Hotel Salta (Noche 1) - Ankara Suits",
+      "destino": "Ankara Suits",
+      "dir": "B. Zorrilla 145, Salta",
+      "fecha": "2026-07-09",
+      "hora": "08:00",
+      "horario": "Check-in",
+      "transporte": "-",
+      "estado": "✅ Reservado",
+      "costo": "Reservado",
+      "obs": "Dejamos las valijas 08:00 y hacemos actividades. A las 14:00 podemos entrar a la habitación. (Booking)"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Recorrido centro histórico",
+      "origen": "Hotel Salta",
+      "destino": "Plaza 9 de Julio / Catedral / Cabildo",
+      "dir": "Plaza 9 de Julio, Salta",
+      "fecha": "2026-07-09",
+      "hora": "10:00",
+      "horario": "Libre",
+      "transporte": "Caminando",
+      "estado": "📌 Planificado",
+      "costo": "-",
+      "obs": "Día de llegada"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Cerro San Bernardo (opcional)",
+      "origen": "Centro Salta",
+      "destino": "Cerro San Bernardo",
+      "dir": "Av San Martin 4400, Salta",
+      "fecha": "2026-07-09",
+      "hora": "16:00",
+      "horario": "Libre",
+      "transporte": "Teleférico / Taxi",
+      "estado": "⚪ Opcional",
+      "costo": "A pagar",
+      "obs": "Depende energía"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Peña folklórica (opcional)",
+      "origen": "Centro Salta",
+      "destino": "A definir",
+      "fecha": "2026-07-09",
+      "hora": "21:00",
+      "horario": "Noche",
+      "transporte": "Taxi / Caminando",
+      "estado": "⚪ Opcional",
+      "costo": "A pagar",
+      "obs": "Recomendable reservar"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Salinas Grandes + Cuesta de Lipán",
+      "origen": "Purmamarca",
+      "destino": "Salinas Grandes",
+      "fecha": "2026-07-10",
+      "hora": "08:00",
+      "horario": "Mañana",
+      "transporte": "Actividad contratada",
+      "estado": "✅ Reservado",
+      "costo": "Pendiente",
+      "obs": "Pick-up: Ankara Suits (B. Zorrilla 145). Regreso a Purmamarca. Altura ~4170 m."
+    },
+    {
+      "cat": "Hospedaje",
+      "act": "Hotel Purmamarca (Noche 2) - La Valentina",
+      "destino": "La Valentina",
+      "dir": "Lavalle s/n 4618, Purmamarca",
+      "fecha": "2026-07-10",
+      "hora": "18:00",
+      "horario": "Check-in tarde",
+      "transporte": "-",
+      "estado": "✅ Reservado",
+      "costo": "Reservado",
+      "obs": "Booking"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Paseo nocturno Purmamarca",
+      "origen": "Hotel",
+      "destino": "Centro Purmamarca",
+      "fecha": "2026-07-10",
+      "hora": "21:00",
+      "horario": "Noche",
+      "transporte": "Caminando",
+      "estado": "📌 Planificado",
+      "costo": "-",
+      "obs": "Plaza y feria"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Quebrada de Humahuaca",
+      "origen": "Salta",
+      "destino": "Purmamarca / Tilcara / Humahuaca",
+      "fecha": "2026-07-11",
+      "hora": "07:00",
+      "horario": "07:00 aprox - 19:00 aprox",
+      "transporte": "Actividad contratada",
+      "estado": "✅ Reservado",
+      "costo": "Pendiente",
+      "obs": "Pick-up: La Valentina (Lavalle s/n). Regreso a Salta."
+    },
+    {
+      "cat": "Hospedaje",
+      "act": "Hotel Salta (Noche 3) - Hotel del tren",
+      "destino": "Hotel del tren",
+      "dir": "Ameghino 779, Salta",
+      "fecha": "2026-07-11",
+      "hora": "20:00",
+      "horario": "Check-in",
+      "transporte": "-",
+      "estado": "✅ Reservado",
+      "costo": "Reservado",
+      "obs": "Última noche"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Cena despedida",
+      "origen": "Hotel",
+      "destino": "Centro Salta",
+      "fecha": "2026-07-11",
+      "hora": "21:30",
+      "horario": "Noche",
+      "transporte": "Caminando",
+      "estado": "📌 Planificado",
+      "costo": "-",
+      "obs": "Opcional"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Museo MAAM",
+      "origen": "Hotel Salta",
+      "destino": "MAAM",
+      "dir": "Bartolomé Mitre 77, Salta",
+      "fecha": "2026-07-12",
+      "hora": "09:00",
+      "horario": "09:00-11:00 aprox",
+      "transporte": "Caminando / Taxi",
+      "estado": "⚪ Opcional",
+      "costo": "A pagar",
+      "obs": "Verificar horario"
+    },
+    {
+      "cat": "Actividad",
+      "act": "Compras / paseo libre",
+      "origen": "Centro Salta",
+      "destino": "Centro Salta",
+      "fecha": "2026-07-12",
+      "hora": "11:00",
+      "horario": "11:00-13:00 aprox",
+      "transporte": "Caminando",
+      "estado": "📌 Planificado",
+      "costo": "-",
+      "obs": "Tiempo libre"
+    },
+    {
+      "cat": "Traslado",
+      "act": "Hotel → Aeropuerto",
+      "origen": "Hotel Salta",
+      "destino": "Aeropuerto Salta",
+      "fecha": "2026-07-12",
+      "hora": "13:00",
+      "horario": "13:00 aprox",
+      "transporte": "Taxi / Transfer",
+      "estado": "📌 Planificado",
+      "costo": "A pagar",
+      "obs": "Llegar 2 h antes",
+      "map": "Aeropuerto Martín Miguel de Güemes, Salta"
+    },
+    {
+      "cat": "Vuelo",
+      "act": "Vuelo regreso",
+      "origen": "Salta (SLA)",
+      "destino": "Buenos Aires (AEP)",
+      "fecha": "2026-07-12",
+      "hora": "15:35",
+      "horario": "15:35 → 17:40 aprox",
+      "transporte": "Avión (Aerolíneas Argentinas)",
+      "estado": "✅ Pagado",
+      "costo": "Pagado",
+      "obs": "Comprado por Despegar",
+      "map": "Aeropuerto Martín Miguel de Güemes, Salta"
+    }
+  ],
+  "reservas": [
+    {
+      "tipo": "vuelo",
+      "nombre": "Vuelo ida AEP → SLA",
+      "detalle": "09/07 05:00 → 07:15 · Aerolíneas Argentinas",
+      "estado": "✅ Pagado"
+    },
+    {
+      "tipo": "vuelo",
+      "nombre": "Vuelo regreso SLA → AEP",
+      "detalle": "12/07 15:35 → 17:40 · Aerolíneas Argentinas",
+      "estado": "✅ Pagado"
+    },
+    {
+      "tipo": "hotel",
+      "nombre": "Ankara Suits (Salta)",
+      "dir": "B. Zorrilla 145, Salta",
+      "detalle": "Noche 1 · 09/07",
+      "estado": "✅ Reservado"
+    },
+    {
+      "tipo": "hotel",
+      "nombre": "La Valentina (Purmamarca)",
+      "dir": "Lavalle s/n 4618, Purmamarca",
+      "detalle": "Noche 2 · 10/07",
+      "estado": "✅ Reservado"
+    },
+    {
+      "tipo": "hotel",
+      "nombre": "Hotel del tren (Salta)",
+      "dir": "Ameghino 779, Salta",
+      "detalle": "Noche 3 · 11/07",
+      "estado": "✅ Reservado"
+    }
+  ],
+  "lugares": [
+    {
+      "nombre": "Plaza 9 de Julio - Catedral - Cabildo",
+      "act": "Sentarse, tomar algo, recorrer, chill",
+      "tiempo": "Libre",
+      "gratis": true,
+      "dir": "Plaza 9 de Julio",
+      "dist": "5 cuadras",
+      "obs": "Todos estos puntos están alrededor de la misma plaza"
+    },
+    {
+      "nombre": "Museo de Arqueología de Alta Montaña (MAAM)",
+      "act": "Visitar el museo",
+      "tiempo": "1 - 1,5 h",
+      "gratis": false,
+      "dir": "Bartolomé Mitre 77",
+      "dist": "5 cuadras",
+      "obs": ""
+    },
+    {
+      "nombre": "Calle Caseros",
+      "act": "Recorrer",
+      "tiempo": "Libre",
+      "gratis": true,
+      "dir": "Una de las calles de la plaza",
+      "dist": "5 cuadras",
+      "obs": ""
+    },
+    {
+      "nombre": "Convento San Francisco",
+      "act": "Verlo, recorrer",
+      "tiempo": "Libre",
+      "gratis": true,
+      "dir": "Córdoba 15",
+      "dist": "4 cuadras",
+      "obs": "A una cuadra de la plaza"
+    },
+    {
+      "nombre": "Monumento a Güemes",
+      "act": "Verlo, recorrer",
+      "tiempo": "Libre",
+      "gratis": true,
+      "dir": "Paseo Güemes y Av. Francisco de Gurruchaga",
+      "dist": "4 cuadras",
+      "obs": "Está para el otro lado"
+    },
+    {
+      "nombre": "Teleférico del Cerro San Bernardo",
+      "act": "Subir al teleférico",
+      "tiempo": "1 - 1,5 h",
+      "gratis": false,
+      "dir": "Av San Martín 4400",
+      "dist": "7 cuadras",
+      "obs": "Cerca del monumento Güemes"
+    }
+  ],
+  "emergencias": [
+    {
+      "n": "Emergencia general",
+      "tel": "911",
+      "ic": "🚨"
+    },
+    {
+      "n": "Emergencia médica (SAME)",
+      "tel": "107",
+      "ic": "🚑"
+    },
+    {
+      "n": "Bomberos",
+      "tel": "100",
+      "ic": "🚒"
+    },
+    {
+      "n": "Policía",
+      "tel": "101",
+      "ic": "👮"
+    }
+  ],
+  "no_olvidar": {
+    "Documentos y dinero": [
+      "DNI y/o pasaporte",
+      "Tarjetas de débito/crédito",
+      "Efectivo (feria y entradas)",
+      "Reservas de hotel y vuelos (PDF/offline)"
+    ],
+    "Clima de altura (julio, frío)": [
+      "Campera abrigada / térmica",
+      "Gorro y guantes",
+      "Buzo/polar",
+      "Protector solar alto (sol fuerte en altura)",
+      "Anteojos de sol",
+      "Labial / crema (aire seco)"
+    ],
+    "Excursiones (Salinas, Lipán, Quebrada)": [
+      "Botella de agua",
+      "Snacks",
+      "Calzado cómodo",
+      "Cámara / celular cargado",
+      "Power bank",
+      "Efectivo para entradas y feria"
+    ],
+    "Salud y básicos": [
+      "Medicación personal",
+      "Algo para el mal de altura (consultar médico)",
+      "Cargadores",
+      "Adaptador / cables",
+      "Botiquín mínimo (analgésico, curitas)"
+    ]
+  }
+}
+</script>
+
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const CATCOLOR = {Vuelo:'var(--vuelo)',Traslado:'var(--traslado)',Hospedaje:'var(--hospedaje)',Actividad:'var(--actividad)'};
+const CATICON = {Vuelo:'✈️',Traslado:'🚗',Hospedaje:'🏨',Actividad:'📍'};
+const GCATS = ['Actividad','Alojamiento','Traslado','Consumo','Souveniers','Otros'];
+const GCATCOLOR = {Actividad:'var(--c1)',Alojamiento:'var(--c2)',Traslado:'var(--c3)',Consumo:'var(--c4)',Souveniers:'var(--c5)',Otros:'var(--c6)'};
+const DAYNAMES=['dom','lun','mar','mié','jue','vie','sáb'];
+const MONTHS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+const store = {
+  get(k,d){try{const v=localStorage.getItem('viaje_'+k);return v===null?d:JSON.parse(v)}catch{return d}},
+  set(k,v){try{localStorage.setItem('viaje_'+k,JSON.stringify(v))}catch(e){toast('Almacenamiento lleno')}}
+};
+let state = {
+  gastos: store.get('gastos',[]),
+  checklist: store.get('checklist',null),
+  diario: store.get('diario',{}),
+  demo: store.get('demo',null),
+  theme: store.get('theme','dark')
+};
+function save(){store.set('gastos',state.gastos);store.set('checklist',state.checklist);
+  store.set('diario',state.diario);store.set('demo',state.demo);store.set('theme',state.theme);}
+
+function now(){return state.demo? new Date(state.demo+'T'+pad(new Date().getHours())+':'+pad(new Date().getMinutes())) : new Date();}
+function pad(n){return String(n).padStart(2,'0')}
+function evDate(e){return new Date(e.fecha+'T'+(e.hora||'00:00'))}
+function fmtFecha(s){const d=new Date(s+'T00:00');return DAYNAMES[d.getDay()]+' '+d.getDate()+' '+MONTHS[d.getMonth()]}
+function money(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function esc(s){return String(s).replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]))}
+
+const screens={hoy:'Hoy',itin:'Itinerario',gastos:'Gastos',res:'Reservas',mas:'Más'};
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.scr));
+function go(scr){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.scr===scr));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('scr-'+scr).classList.add('active');
+  document.getElementById('hdrTitle').textContent=screens[scr];
+  document.getElementById('fab').classList.toggle('show',scr==='gastos');
+  render();window.scrollTo(0,0);
+}
+function mapsUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q)}
+function mapsNear(q){return 'https://www.google.com/maps/search/'+encodeURIComponent(q)}
+function copy(t){navigator.clipboard&&navigator.clipboard.writeText(t);toast('Copiado')}
+function toast(m){const d=document.createElement('div');d.textContent=m;
+  d.style.cssText='position:fixed;bottom:150px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;z-index:99;box-shadow:var(--shadow)';
+  document.body.appendChild(d);setTimeout(()=>d.remove(),1800)}
+
+const ALTURA_DIAS=['2026-07-10'];
+
+// ====== HOY ======
+function renderHoy(){
+  const n=now();const evs=[...DATA.eventos].sort((a,b)=>evDate(a)-evDate(b));
+  const next=evs.find(e=>evDate(e)>=n);
+  let html='';
+  if(next){
+    const diff=evDate(next)-n;
+    html+=`<div class="card next-card">
+      <div class="label">${diff>0?'Próximo':'Ahora'}</div>
+      <div class="title">${CATICON[next.cat]} ${esc(next.act)}</div>
+      <div class="meta">${fmtFecha(next.fecha)} · ${esc(next.horario||next.hora)}${next.dir?' · '+esc(next.dir):(next.destino?' · '+esc(next.destino):'')}</div>
+      <div class="countdown" id="cd"></div>
+      <div class="row" style="margin-top:12px">
+        ${(next.map||next.dir||next.destino)?`<button class="btn btn-light" onclick="window.open('${mapsUrl(next.map||next.dir||next.destino)}','_blank')">🧭 Cómo llegar</button>`:''}
+        <button class="btn btn-light" onclick="openEv(${evs.indexOf(next)})">Ver detalle</button>
+      </div></div>`;
+  } else {
+    html+=`<div class="card next-card"><div class="title">🎉 Viaje completado</div><div class="meta">No quedan eventos por delante.</div></div>`;
+  }
+  let refDay=n.toISOString().slice(0,10);
+  const days=[...new Set(evs.map(e=>e.fecha))];
+  if(!days.includes(refDay)) refDay = days.find(d=>d>=refDay)||days[0];
+  if(ALTURA_DIAS.includes(refDay)) html+=alturaCard();
+  const today=evs.filter(e=>e.fecha===refDay);
+  html+=`<div class="section-title">Agenda · ${fmtFecha(refDay)}</div>`;
+  html+=today.map(e=>evRow(e,evs.indexOf(e))).join('')||'<div class="muted">Sin actividades.</div>';
+  html+=`<div class="section-title">Clima</div><div class="card" id="weather"><div class="muted">Cargando pronóstico…</div></div>`;
+  document.getElementById('scr-hoy').innerHTML=html;
+  if(next) startCountdown(evDate(next));
+  loadWeather();
+}
+let cdTimer;
+function startCountdown(target){
+  clearInterval(cdTimer);const el=()=>document.getElementById('cd');
+  function tick(){const e=el();if(!e)return clearInterval(cdTimer);
+    let s=Math.floor((target-now())/1000);
+    if(s<=0){e.textContent='En curso';return}
+    const d=Math.floor(s/86400);s%=86400;const h=Math.floor(s/3600);s%=3600;const m=Math.floor(s/60);
+    e.textContent=(d?d+'d ':'')+pad(h)+'h '+pad(m)+'m';}
+  tick();cdTimer=setInterval(tick,1000*30);
+}
+function alturaCard(){
+  return `<div class="info-card">
+    <h4>⛰️ Hoy vas a gran altura</h4>
+    <div class="small">Salinas Grandes y la Cuesta de Lipán superan los <b>4.000 m</b> (puede dar apunamiento / soroche).</div>
+    <button class="btn btn-ghost small" style="margin-top:8px" onclick="openAltura()">Ver tips de altura</button>
+  </div>`;
+}
+
+// ====== ITINERARIO ======
+let itinFilter='Todos';
+function renderItin(){
+  const evs=[...DATA.eventos].sort((a,b)=>evDate(a)-evDate(b));
+  const cats=['Todos','Vuelo','Traslado','Hospedaje','Actividad'];
+  let html=`<div class="chips">${cats.map(c=>`<button class="chip ${itinFilter===c?'active':''}" onclick="itinFilter='${c}';renderItin()">${c==='Todos'?'Todos':CATICON[c]+' '+c}</button>`).join('')}</div>`;
+  const days=[...new Set(evs.map(e=>e.fecha))];
+  days.forEach((day,i)=>{
+    const list=evs.filter(e=>e.fecha===day&&(itinFilter==='Todos'||e.cat===itinFilter));
+    if(!list.length)return;
+    html+=`<div class="day-head">Día ${i+1} · ${fmtFecha(day)}</div>`;
+    html+=`<div class="card">${list.map(e=>evRow(e,evs.indexOf(e))).join('')}</div>`;
+  });
+  document.getElementById('scr-itin').innerHTML=html;
+}
+function evRow(e,idx){
+  const est=(e.estado||'').split(' ')[0];
+  return `<div class="ev" style="--cat:${CATCOLOR[e.cat]}" onclick="openEv(${idx})">
+    <div class="time">${esc(e.hora||'')}</div>
+    <div class="body">
+      <div class="name">${est} ${esc(e.act)}</div>
+      <div class="where">${[e.origen&&e.origen!=='-'?esc(e.origen):'',e.destino&&e.destino!=='-'?'→ '+esc(e.destino):''].filter(Boolean).join(' ')}</div>
+    </div></div>`;
+}
+function openEv(idx){
+  const evs=[...DATA.eventos].sort((a,b)=>evDate(a)-evDate(b));const e=evs[idx];
+  let h=`<span class="tag" style="background:${CATCOLOR[e.cat]}">${CATICON[e.cat]} ${e.cat}</span>
+    <h3 style="margin-top:10px">${esc(e.act)}</h3>
+    <div class="muted" style="margin-bottom:12px">${fmtFecha(e.fecha)} · ${esc(e.horario||e.hora)}</div>`;
+  const kv=(k,v)=>v&&v!=='-'?`<div class="kv"><b>${k}:</b> ${esc(v)}</div>`:'';
+  h+=kv('Origen',e.origen)+kv('Destino',e.destino)+kv('Dirección',e.dir)+kv('Transporte',e.transporte)+kv('Estado',e.estado)+kv('Costo',e.costo)+kv('Notas',e.obs);
+  if(e.map||e.dir||e.destino) h+=`<button class="btn btn-primary" style="margin-top:14px;width:100%" onclick="window.open('${mapsUrl(e.map||e.dir||e.destino)}','_blank')">🧭 Cómo llegar</button>`;
+  openSheet(h);
+}
+
+// ====== GASTOS ======
+function renderGastos(){
+  const g=state.gastos;
+  const total=g.reduce((a,x)=>a+x.monto,0);
+  const byP={Lucas:0,Lucia:0};g.forEach(x=>byP[x.persona]=(byP[x.persona]||0)+x.monto);
+  let html=`<div class="kpis">
+    <div class="kpi"><div class="lab">Total</div><div class="val">${money(total)}</div></div>
+    <div class="kpi"><div class="lab"># Gastos</div><div class="val">${g.length}</div></div>
+    <div class="kpi"><div class="lab">👨 Lucas</div><div class="val" style="color:var(--lucas)">${money(byP.Lucas||0)}</div></div>
+    <div class="kpi"><div class="lab">👩 Lucía</div><div class="val" style="color:var(--lucia)">${money(byP.Lucia||0)}</div></div>
+  </div>`;
+  if(!g.length){
+    html+=`<div class="card" style="text-align:center;padding:32px 16px"><div style="font-size:40px">💸</div><div class="muted" style="margin-top:8px">Todavía no cargaste gastos.<br>Tocá el botón <b>＋</b> para agregar el primero.</div></div>`;
+    document.getElementById('scr-gastos').innerHTML=html;return;
+  }
+  const byC={};GCATS.forEach(c=>byC[c]=0);g.forEach(x=>byC[x.categoria]=(byC[x.categoria]||0)+x.monto);
+  const maxC=Math.max(...Object.values(byC),1);
+  html+=`<div class="section-title">Por categoría</div><div class="card">`;
+  GCATS.filter(c=>byC[c]>0).sort((a,b)=>byC[b]-byC[a]).forEach(c=>{
+    html+=`<div class="bar-row"><div class="lab">${c}</div><div class="bar-track"><div class="bar-fill" style="width:${byC[c]/maxC*100}%;background:${GCATCOLOR[c]}"></div></div><div class="amt">${money(byC[c])}</div></div>`;
+  });
+  html+='</div>';
+  html+=`<div class="section-title">Por persona</div><div class="card"><div class="donut-wrap">${donut(byP.Lucas||0,byP.Lucia||0)}
+    <div class="legend">
+      <div style="margin-bottom:6px"><span style="background:var(--lucas)"></span>👨 Lucas · <b>${money(byP.Lucas||0)}</b> (${pct(byP.Lucas,total)}%)</div>
+      <div><span style="background:var(--lucia)"></span>👩 Lucía · <b>${money(byP.Lucia||0)}</b> (${pct(byP.Lucia,total)}%)</div>
+    </div></div></div>`;
+  html+=`<div class="section-title">Detalle</div><div class="card" style="overflow-x:auto">
+    <table><thead><tr><th>Concepto</th><th>Cat.</th><th>Quién</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody>`;
+  g.slice().reverse().forEach((x)=>{
+    const realIdx=state.gastos.indexOf(x);
+    html+=`<tr><td>${esc(x.concepto)}</td><td><span class="small" style="color:${GCATCOLOR[x.categoria]};font-weight:700">${x.categoria}</span></td>
+      <td>${x.persona==='Lucas'?'👨':'👩'}</td><td style="text-align:right;font-weight:700;white-space:nowrap">${money(x.monto)}</td>
+      <td><span style="color:var(--alta);cursor:pointer" onclick="delGasto(${realIdx})">✕</span></td></tr>`;
+  });
+  html+=`</tbody></table></div>`;
+  document.getElementById('scr-gastos').innerHTML=html;
+}
+function pct(v,t){return t?Math.round((v||0)/t*100):0}
+function donut(a,b){
+  const tot=a+b;const C=2*Math.PI*54;
+  const da=tot?a/tot*C:0, db=tot?b/tot*C:0;
+  if(!tot) return `<svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--surface2)" stroke-width="12"/></svg>`;
+  return `<svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg)">
+    <circle cx="60" cy="60" r="54" fill="none" stroke="var(--surface2)" stroke-width="12"/>
+    <circle cx="60" cy="60" r="54" fill="none" stroke="var(--lucas)" stroke-width="12" stroke-dasharray="${da} ${C-da}"/>
+    <circle cx="60" cy="60" r="54" fill="none" stroke="var(--lucia)" stroke-width="12" stroke-dasharray="${db} ${C-db}" stroke-dashoffset="${-da}"/>
+  </svg>`;
+}
+let formP='Lucas';
+function openGastoForm(){
+  formP='Lucas';
+  let h=`<h3>Nuevo gasto</h3>
+    <label>Monto</label><input id="gMonto" type="number" inputmode="decimal" placeholder="$ 0">
+    <label>Categoría</label><select id="gCat">${GCATS.map(c=>`<option>${c}</option>`).join('')}</select>
+    <label>Concepto</label><input id="gConc" placeholder="Ej: Almuerzo en peña">
+    <label>Persona</label>
+    <div class="seg">
+      <button id="pLucas" class="on" onclick="formP='Lucas';document.getElementById('pLucas').classList.add('on');document.getElementById('pLucia').classList.remove('on')">👨 Lucas</button>
+      <button id="pLucia" onclick="formP='Lucia';document.getElementById('pLucia').classList.add('on');document.getElementById('pLucas').classList.remove('on')">👩 Lucía</button>
+    </div>
+    <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="addGasto()">Guardar gasto</button>`;
+  openSheet(h);
+}
+function addGasto(){
+  const m=parseFloat(document.getElementById('gMonto').value);
+  const c=document.getElementById('gCat').value;
+  const co=document.getElementById('gConc').value.trim();
+  if(!m||m<=0)return toast('Ingresá un monto válido');
+  if(!co)return toast('Ingresá un concepto');
+  state.gastos.push({monto:m,categoria:c,concepto:co,persona:formP,fecha:now().toISOString().slice(0,10)});
+  save();closeSheet();renderGastos();toast('Gasto agregado');
+}
+function delGasto(i){state.gastos.splice(i,1);save();renderGastos()}
+
+// ====== RESERVAS ======
+function renderRes(){
+  let html='<div class="section-title">Vuelos</div>';
+  DATA.reservas.filter(r=>r.tipo==='vuelo').forEach(r=>{
+    html+=`<div class="card"><div class="flex-between"><b>✈️ ${esc(r.nombre)}</b><span class="small">${esc(r.estado)}</span></div><div class="muted small" style="margin-top:4px">${esc(r.detalle)}</div></div>`;
+  });
+  html+='<div class="section-title">Hoteles</div>';
+  DATA.reservas.filter(r=>r.tipo==='hotel').forEach(r=>{
+    html+=`<div class="card"><div class="flex-between"><b>🏨 ${esc(r.nombre)}</b><span class="small">${esc(r.estado)}</span></div>
+      <div class="muted small" style="margin:4px 0">${esc(r.detalle)}<br>${esc(r.dir||'')}</div>
+      <div class="row">${r.dir?`<button class="btn btn-ghost small" onclick="copy('${esc(r.dir)}')">📋 Copiar</button><button class="btn btn-ghost small" onclick="window.open('${mapsUrl(r.dir+', Argentina')}','_blank')">🧭 Maps</button>`:''}</div></div>`;
+  });
+  html+=`<div class="note">📎 Guardá acá una foto o PDF de cada reserva (Booking / Despegar) para tenerlos offline.</div>`;
+  document.getElementById('scr-res').innerHTML=html;
+}
+
+// ====== MÁS (hub) ======
+function renderMas(){
+  const items=[
+    ['🗺️','Lugares','Centro histórico de Salta','openLugares()'],
+    ['🩺','Datos útiles / Salud','Emergencias, hospital, farmacia, altura','openDatos()'],
+    ['🎒','No olvidar','Checklist según clima y excursiones','openOlvidar()'],
+    ['📔','Diario de viaje','Una foto y una nota por día','openDiario()'],
+    ['📤','Compartir itinerario','WhatsApp o PDF','openCompartir()'],
+  ];
+  document.getElementById('scr-mas').innerHTML=items.map(i=>
+    `<div class="menu-item" onclick="${i[3]}"><div class="mic">${i[0]}</div><div><div class="mt">${i[1]}</div><div class="ms">${i[2]}</div></div></div>`).join('');
+}
+
+function openLugares(){
+  let h=`<h3>🗺️ Lugares · Centro de Salta</h3><div class="note" style="margin:6px 0 12px">Tocá un lugar para abrirlo en Maps.</div>`;
+  DATA.lugares.forEach(l=>{
+    h+=`<div class="card"><div class="flex-between"><b>${esc(l.nombre)}</b><span class="tag" style="background:${l.gratis?'var(--baja)':'var(--actividad)'}">${l.gratis?'Gratis':'Pago'}</span></div>
+      <div class="muted small" style="margin:6px 0">${esc(l.act)} · ⏱️ ${esc(l.tiempo)} · 📏 ${esc(l.dist)}</div>
+      ${l.obs?`<div class="small muted">${esc(l.obs)}</div>`:''}
+      <button class="btn btn-ghost small" style="margin-top:8px" onclick="window.open('${mapsUrl(l.dir+' Salta, Argentina')}','_blank')">🧭 ${esc(l.dir)}</button></div>`;
+  });
+  openSheet(h);
+}
+
+function openDatos(){
+  let h=`<h3>🩺 Datos útiles y salud</h3>`;
+  h+=`<div class="section-title">Emergencias (Argentina)</div><div class="card">`;
+  DATA.emergencias.forEach(e=>{h+=`<div class="li"><div style="font-size:20px">${e.ic}</div><div class="ptxt"><b>${esc(e.n)}</b><br><a class="tel" href="tel:${e.tel}">${e.tel}</a></div></div>`});
+  h+=`</div><div class="note">Números nacionales de emergencia. 911 es la línea unificada.</div>`;
+  h+=`<div class="section-title">Cerca tuyo</div><div class="card">
+    <button class="btn btn-ghost" style="width:100%;margin-bottom:8px" onclick="window.open('${mapsNear('farmacia de turno cerca')}','_blank')">💊 Farmacia más cercana</button>
+    <button class="btn btn-ghost" style="width:100%;margin-bottom:8px" onclick="window.open('${mapsNear('hospital cerca')}','_blank')">🏥 Hospital más cercano</button>
+    <button class="btn btn-ghost" style="width:100%" onclick="window.open('${mapsNear('cajero automático cerca')}','_blank')">🏧 Cajero / banco</button>
+    <div class="note">Abren Google Maps con la búsqueda en tu ubicación actual (requiere internet/GPS). El principal hospital público de Salta es el San Bernardo — verificá horarios y guardia en el momento.</div></div>`;
+  h+=`<div class="section-title">Altura</div><div class="card"><button class="btn btn-ghost" style="width:100%" onclick="openAltura()">⛰️ Tips de altura / apunamiento</button></div>`;
+  openSheet(h);
+}
+function openAltura(){
+  const h=`<h3>⛰️ Altura y apunamiento (soroche)</h3>
+    <div class="note" style="margin:6px 0 12px">Salinas Grandes ~3.450 m y la Cuesta de Lipán supera los <b>4.170 m</b>. El mal de altura puede dar dolor de cabeza, mareo, náuseas, falta de aire o cansancio.</div>
+    <div class="section-title">Para prevenirlo</div><div class="card"><div class="li"><div>💧</div><div class="ptxt">Tomá mucha agua, antes y durante.</div></div>
+      <div class="li"><div>🍃</div><div class="ptxt">Subí despacio, sin esfuerzos bruscos los primeros minutos.</div></div>
+      <div class="li"><div>🍽️</div><div class="ptxt">Comé liviano; evitá comidas pesadas.</div></div>
+      <div class="li"><div>🚭</div><div class="ptxt">Evitá alcohol y cigarrillo en la subida.</div></div>
+      <div class="li"><div>🍵</div><div class="ptxt">Las hojas o el mate de coca son de uso habitual en la zona para el soroche.</div></div></div>
+    <div class="section-title">Si te sentís mal</div><div class="card"><div class="li"><div>⬇️</div><div class="ptxt">Bajar de altura suele aliviar rápido. Avisá al guía.</div></div>
+      <div class="li"><div>😮‍💨</div><div class="ptxt">Descansá y respirá tranquilo.</div></div></div>
+    <div class="note">⚠️ Información general, no es consejo médico. Si tenés condiciones cardíacas, respiratorias, embarazo u otras, consultá a tu médico antes de viajar. Ante síntomas graves, buscá atención médica.</div>`;
+  openSheet(h);
+}
+
+function renderOlvidarBox(){
+  if(!state.checklist){
+    state.checklist={};
+    Object.entries(DATA.no_olvidar).forEach(([g,items])=>{state.checklist[g]=items.map(t=>({t,done:false}))});
+    save();
+  }
+  let h='';
+  Object.entries(state.checklist).forEach(([g,items])=>{
+    const done=items.filter(i=>i.done).length;
+    h+=`<div class="section-title">${esc(g)} · ${done}/${items.length}</div><div class="card">`;
+    items.forEach((c,i)=>{h+=`<div class="li ${c.done?'done':''}"><div class="check ${c.done?'on':''}" onclick="toggleOlv('${esc(g)}',${i})">${c.done?'✓':''}</div><div class="ptxt">${esc(c.t)}</div></div>`});
+    h+='</div>';
+  });
+  return h;
+}
+function openOlvidar(){
+  openSheet(`<h3>🎒 No olvidar</h3><div class="note" style="margin:6px 0 10px">Lista pensada para julio en la puna y tus excursiones. Marcá lo que ya tengas listo.</div><div id="olvBox">${renderOlvidarBox()}</div>`);
+}
+function toggleOlv(g,i){state.checklist[g][i].done=!state.checklist[g][i].done;save();
+  const b=document.getElementById('olvBox');if(b)b.innerHTML=renderOlvidarBox();}
+
+function openDiario(){
+  const days=[...new Set([...DATA.eventos].map(e=>e.fecha))].sort();
+  let h=`<h3>📔 Diario de viaje</h3><div class="note" style="margin:6px 0 12px">Sumá una foto y una nota por día. Se guarda en este dispositivo.</div>`;
+  days.forEach(d=>{
+    const e=state.diario[d]||{};
+    h+=`<div class="card"><b>${fmtFecha(d)}</b>
+      ${e.foto?`<img class="diario-photo" src="${e.foto}">`:''}
+      ${e.nota?`<div class="small" style="margin-top:8px;white-space:pre-wrap">${esc(e.nota)}</div>`:'<div class="muted small" style="margin-top:6px">Sin entrada</div>'}
+      <button class="btn btn-ghost small" style="margin-top:8px" onclick="editDiario('${d}')">${e.nota||e.foto?'Editar':'Agregar'}</button></div>`;
+  });
+  openSheet(h);
+}
+function editDiario(d){
+  const e=state.diario[d]||{};
+  let h=`<h3>${fmtFecha(d)}</h3>
+    <label>Nota</label><textarea id="dNota" rows="4" placeholder="¿Qué hiciste hoy?">${esc(e.nota||'')}</textarea>
+    ${e.foto?`<img class="diario-photo" src="${e.foto}" id="dPrev">`:'<img class="diario-photo" id="dPrev" style="display:none">'}
+    <label>Foto</label><input id="dFoto" type="file" accept="image/*">
+    <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="saveDiario('${d}')">Guardar</button>`;
+  openSheet(h);
+  let pending=e.foto||null;
+  document.getElementById('dFoto').onchange=ev=>{
+    const f=ev.target.files[0];if(!f)return;
+    const img=new Image();const rd=new FileReader();
+    rd.onload=()=>{img.onload=()=>{
+      const max=1024;let w=img.width,ht=img.height;
+      if(w>ht&&w>max){ht=ht*max/w;w=max}else if(ht>max){w=w*max/ht;ht=max}
+      const cv=document.createElement('canvas');cv.width=w;cv.height=ht;cv.getContext('2d').drawImage(img,0,0,w,ht);
+      pending=cv.toDataURL('image/jpeg',0.7);
+      const p=document.getElementById('dPrev');p.src=pending;p.style.display='block';
+    };img.src=rd.result};rd.readAsDataURL(f);
+  };
+  window._pendingPhoto=()=>pending;
+}
+function saveDiario(d){
+  const nota=document.getElementById('dNota').value.trim();
+  const foto=window._pendingPhoto?window._pendingPhoto():null;
+  state.diario[d]={nota,foto};save();openDiario();toast('Diario guardado');
+}
+
+function itinText(){
+  let t=`🏔️ Mi Viaje · Salta & Jujuy (Julio 2026)\n\n`;
+  const evs=[...DATA.eventos].sort((a,b)=>evDate(a)-evDate(b));
+  const days=[...new Set(evs.map(e=>e.fecha))];
+  days.forEach((d,i)=>{
+    t+=`📅 Día ${i+1} · ${fmtFecha(d)}\n`;
+    evs.filter(e=>e.fecha===d).forEach(e=>{t+=`  ${e.hora||''} ${e.act}${(e.dir||(e.destino&&e.destino!=='-'))?' — '+(e.dir||e.destino):''}\n`});
+    t+='\n';
+  });
+  return t;
+}
+function openCompartir(){
+  openSheet(`<h3>📤 Compartir itinerario</h3>
+    <button class="btn btn-primary" style="width:100%;margin:10px 0" onclick="window.open('https://wa.me/?text='+encodeURIComponent(itinText()),'_blank')">💬 Enviar por WhatsApp</button>
+    <button class="btn btn-ghost" style="width:100%;margin-bottom:10px" onclick="shareNative()">📲 Compartir (otras apps)</button>
+    <button class="btn btn-ghost" style="width:100%" onclick="printPDF()">🖨️ Exportar / Guardar PDF</button>
+    <div class="note">El PDF se genera con el diálogo de impresión: elegí "Guardar como PDF".</div>`);
+}
+function shareNative(){
+  if(navigator.share)navigator.share({title:'Mi Viaje Salta & Jujuy',text:itinText()}).catch(()=>{});
+  else{copy(itinText());toast('Itinerario copiado')}
+}
+function printPDF(){
+  const evs=[...DATA.eventos].sort((a,b)=>evDate(a)-evDate(b));
+  const days=[...new Set(evs.map(e=>e.fecha))];
+  let body='';days.forEach((d,i)=>{
+    body+=`<h2>Día ${i+1} · ${fmtFecha(d)}</h2><ul>`;
+    evs.filter(e=>e.fecha===d).forEach(e=>{body+=`<li><b>${e.hora||''}</b> ${esc(e.act)} ${e.dir||(e.destino&&e.destino!=='-')?'— '+esc(e.dir||e.destino):''} <i>(${esc(e.estado||'')})</i></li>`});
+    body+='</ul>';
+  });
+  const w=window.open('','_blank');
+  const tagOpen='<scr'+'ipt>', tagClose='</scr'+'ipt>';
+  w.document.write('<html><head><title>Itinerario Salta & Jujuy</title><style>body{font-family:Arial;padding:24px;color:#111}h1{color:#0f766e}h2{margin-top:18px;border-bottom:2px solid #0f766e;padding-bottom:4px}li{margin:4px 0}</style></head><body><h1>Mi Viaje · Salta & Jujuy — Julio 2026</h1>'+body+tagOpen+'window.onload=function(){window.print()}'+tagClose+'</body></html>');
+  w.document.close();
+}
+
+// ====== CLIMA ======
+async function loadWeather(){
+  const box=document.getElementById('weather');if(!box)return;
+  const spots=[{n:'Salta',lat:-24.79,lon:-65.41},{n:'Purmamarca',lat:-23.74,lon:-65.50}];
+  try{
+    let out='';
+    for(const s of spots){
+      const u=`https://api.open-meteo.com/v1/forecast?latitude=${s.lat}&longitude=${s.lon}&daily=temperature_2m_max,temperature_2m_min&timezone=auto&start_date=2026-07-09&end_date=2026-07-12`;
+      const r=await fetch(u);const j=await r.json();
+      out+=`<div style="font-weight:700;font-size:13px;margin:6px 0 4px">${s.n}</div><div class="weatherbox">`;
+      j.daily.time.forEach((d,i)=>{out+=`<div class="wcard"><div class="d">${fmtFecha(d)}</div><div class="t">${Math.round(j.daily.temperature_2m_max[i])}°</div><div class="muted small">${Math.round(j.daily.temperature_2m_min[i])}° mín</div></div>`});
+      out+='</div>';
+    }
+    out+='<div class="note">🧥 Julio en la puna es frío, sobre todo de mañana y noche.</div>';
+    box.innerHTML=out;
+  }catch(e){
+    box.innerHTML='<div class="muted">Sin conexión: el pronóstico se carga cuando tengas internet. 🧥 Igual, llevá abrigo: julio en la puna es frío.</div>';
+  }
+}
+
+// ====== AJUSTES ======
+function openSettings(){
+  let h=`<h3>⚙️ Ajustes</h3>`;
+  h+=`<div class="section-title">🔔 Recordatorios</div><div class="card">
+    <button class="btn btn-primary small" onclick="enableNotif()">Activar recordatorios</button>
+    <div class="note">Te avisa ~1h30 antes de cada pick-up de excursión y del traslado al aeropuerto, mientras la app esté abierta/instalada. Para alarmas con la app cerrada, ponelas también en el reloj.</div></div>`;
+  h+=`<div class="section-title">🧪 Previsualizar viaje</div><div class="card">
+    <label>Simular que hoy es:</label>
+    <select id="demoSel" onchange="setDemo(this.value)">
+      <option value="">Fecha real</option>
+      <option value="2026-07-09" ${state.demo==='2026-07-09'?'selected':''}>Día 1 · 9 jul</option>
+      <option value="2026-07-10" ${state.demo==='2026-07-10'?'selected':''}>Día 2 · 10 jul (Salinas)</option>
+      <option value="2026-07-11" ${state.demo==='2026-07-11'?'selected':''}>Día 3 · 11 jul</option>
+      <option value="2026-07-12" ${state.demo==='2026-07-12'?'selected':''}>Día 4 · 12 jul</option>
+    </select></div>`;
+  openSheet(h);
+}
+function setDemo(v){state.demo=v||null;save();}
+function enableNotif(){
+  if(!('Notification'in window))return toast('Sin soporte de notificaciones');
+  Notification.requestPermission().then(p=>{
+    if(p!=='granted')return toast('Permiso denegado');
+    toast('Recordatorios activados');scheduleReminders();
+  });
+}
+function scheduleReminders(){
+  const n=now();
+  DATA.eventos.filter(e=>['Traslado','Actividad'].includes(e.cat)&&/pick-up|Aeropuerto|excursión|contratada/i.test((e.obs||'')+e.transporte+e.act))
+    .forEach(e=>{
+      const when=evDate(e)-90*60000-n;
+      if(when>0&&when<24*3600000) setTimeout(()=>new Notification('Mi Viaje · '+e.act,{body:'En ~1h30: '+(e.horario||e.hora)+' · '+(e.dir||e.destino||'')}),when);
+    });
+}
+
+function openSheet(html){document.getElementById('sheetBody').innerHTML=html;document.getElementById('modal').classList.add('open')}
+function closeSheet(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeSheet()};
+document.getElementById('settingsBtn').onclick=openSettings;
+document.getElementById('fab').onclick=openGastoForm;
+
+function applyTheme(){document.body.dataset.theme=state.theme;document.getElementById('themeBtn').textContent=state.theme==='dark'?'☀️':'🌙';
+  document.querySelector('meta[name=theme-color]').setAttribute('content',state.theme==='dark'?'#0b1220':'#0f766e')}
+document.getElementById('themeBtn').onclick=()=>{state.theme=state.theme==='dark'?'light':'dark';save();applyTheme()};
+
+function render(){
+  const a=document.querySelector('.screen.active').id;
+  if(a==='scr-hoy')renderHoy();
+  else if(a==='scr-itin')renderItin();
+  else if(a==='scr-gastos')renderGastos();
+  else if(a==='scr-res')renderRes();
+  else if(a==='scr-mas')renderMas();
+}
+applyTheme();render();
+if('serviceWorker'in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+</script>
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
