@@ -126,7 +126,7 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
 .ditem .di{font-size:20px;width:24px;text-align:center}
 .ditem.active{background:color-mix(in srgb,var(--primary) 14%,var(--surface));color:var(--primary)}
 .ditem:active{background:var(--surface2)}
-.line-svg{width:100%;height:140px;display:block}
+.line-svg{width:100%;height:auto;display:block}
 </style>
 </head>
 <body data-theme="dark">
@@ -534,14 +534,19 @@ a.tel{color:var(--primary);font-weight:700;text-decoration:none}
       "Buzo/polar",
       "Protector solar alto (sol fuerte en altura)",
       "Anteojos de sol",
-      "Labial / crema (aire seco)"
+      "Labial / crema (aire seco)",
+      "Sombrero o gorra",
+      "Ropa cómoda y abrigada"
     ],
     "Excursiones (Salinas, Lipán, Quebrada)": [
       "Botella de agua",
       "Snacks",
       "Calzado cómodo",
       "Cámara / celular cargado",
-      "Efectivo para entradas y feria"
+      "Efectivo para entradas y feria",
+      "Agua mineral para el recorrido",
+      "Caramelos u hojitas de coca (aminora el apunamiento)",
+      "Comer liviano al mediodía y bien al desayuno"
     ],
     "Salud y básicos": [
       "Medicación personal",
@@ -564,7 +569,7 @@ const GCATS = ['Actividad','Alojamiento','Traslado','Consumo','Souveniers','Otro
 const GCATCOLOR = {Actividad:'var(--c1)',Alojamiento:'var(--c2)',Traslado:'var(--c3)',Consumo:'var(--c4)',Souveniers:'var(--c5)',Otros:'var(--c6)'};
 const DAYNAMES=['dom','lun','mar','mié','jue','vie','sáb'];
 const MONTHS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const CLV=2; // version de la lista "no olvidar"
+const CLV=3; // version de la lista "no olvidar"
 
 const MENU=[
   ['hoy','🏠','Hoy'],['itin','🗓️','Itinerario'],['gastos','💰','Gastos'],['res','🏨','Reservas'],
@@ -803,11 +808,11 @@ function donut(a,b){
 function lineChart(g){
   const tripDays=[...new Set([...DATA.eventos].map(e=>e.fecha))].sort();
   const by={};tripDays.forEach(d=>by[d]=0);
-  g.forEach(x=>{if(x.fecha in by)by[x.fecha]+=x.monto; else by[x.fecha]=(by[x.fecha]||0)+x.monto});
+  g.forEach(x=>{by[x.fecha]=(by[x.fecha]||0)+x.monto});
   const days=Object.keys(by).sort();
   const vals=days.map(d=>by[d]);
   const max=Math.max(...vals,1);
-  const W=300,H=120,pl=8,pr=8,pt=12,pb=22;
+  const W=340,H=170,pl=30,pr=30,pt=34,pb=30;
   const iw=W-pl-pr, ih=H-pt-pb;
   const n=days.length;
   const x=i=> n<=1? pl+iw/2 : pl+ i*(iw/(n-1));
@@ -815,14 +820,12 @@ function lineChart(g){
   const pts=vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
   let dots='',labels='';
   vals.forEach((v,i)=>{
-    dots+=`<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="3.5" fill="var(--primary)"/>`;
-    if(v>0) labels+=`<text x="${x(i).toFixed(1)}" y="${(y(v)-7).toFixed(1)}" font-size="9" fill="var(--text)" text-anchor="middle" font-weight="700">${Math.round(v/1000)>0?('$'+Math.round(v/1000)+'k'):money(v)}</text>`;
-    labels+=`<text x="${x(i).toFixed(1)}" y="${H-7}" font-size="9" fill="var(--muted)" text-anchor="middle">${days[i].slice(8,10)}/${days[i].slice(5,7)}</text>`;
+    const xi=x(i), anchor = i===0?'start' : (i===n-1?'end':'middle');
+    dots+=`<circle cx="${xi.toFixed(1)}" cy="${y(v).toFixed(1)}" r="3.5" fill="var(--primary)"/>`;
+    if(v>0) labels+=`<text x="${xi.toFixed(1)}" y="${(y(v)-9).toFixed(1)}" font-size="11" fill="var(--text)" text-anchor="${anchor}" font-weight="700">${money(v)}</text>`;
+    labels+=`<text x="${xi.toFixed(1)}" y="${H-8}" font-size="11" fill="var(--muted)" text-anchor="${anchor}">${days[i].slice(8,10)}/${days[i].slice(5,7)}</text>`;
   });
-  const area=`${pl},${pt+ih} ${pts} ${(pl+iw).toFixed(1)},${pt+ih}`;
-  return `<svg class="line-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-    <polyline points="${pts}" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round"/>
-    ${dots}${labels}</svg>`;
+  return `<svg class="line-svg" viewBox="0 0 ${W} ${H}"><polyline points="${pts}" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${dots}${labels}</svg>`;
 }
 let formP='Lucas';
 function openGastoForm(){
@@ -831,6 +834,7 @@ function openGastoForm(){
     <label>Monto</label><input id="gMonto" type="number" inputmode="decimal" placeholder="$ 0">
     <label>Categoría</label><select id="gCat">${GCATS.map(c=>`<option>${c}</option>`).join('')}</select>
     <label>Concepto</label><input id="gConc" placeholder="Ej: Almuerzo en peña">
+    <label>Día del gasto</label><input id="gFecha" type="date" value="${now().toISOString().slice(0,10)}" min="2026-07-09" max="2026-07-12">
     <label>Persona</label>
     <div class="seg">
       <button id="pLucas" class="on" onclick="formP='Lucas';pLucas.classList.add('on');pLucia.classList.remove('on')">👨 Lucas</button>
@@ -845,7 +849,8 @@ function addGasto(){
   const co=document.getElementById('gConc').value.trim();
   if(!m||m<=0)return toast('Ingresá un monto válido');
   if(!co)return toast('Ingresá un concepto');
-  state.gastos.push({monto:m,categoria:c,concepto:co,persona:formP,fecha:now().toISOString().slice(0,10)});
+  const fch=(document.getElementById('gFecha').value)||now().toISOString().slice(0,10);
+  state.gastos.push({monto:m,categoria:c,concepto:co,persona:formP,fecha:fch});
   save();renderGastos();history.back();toast('Gasto agregado');
 }
 function delGasto(i){state.gastos.splice(i,1);save();renderGastos()}
